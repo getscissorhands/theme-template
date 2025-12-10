@@ -1,0 +1,38 @@
+@layout ScissorHands.Theme.MainLayout
+
+@code {
+    [Parameter]
+    public ContentDocument Document { get; set; } = new();
+
+    [Parameter]
+    public ThemeManifest Theme { get; set; } = new();
+
+    [Parameter]
+    public SiteOptions Site { get; set; } = new();
+}
+
+<section class="post">
+    <header>
+        <div>
+            @Document.Metadata.Title
+        </div>
+        @if (Document.Metadata.Published is { } published)
+        {
+            <div>
+                @published.ToString("MMMM dd, yyyy")
+            </div>
+        }
+        @if (Document.Metadata.Tags.Any())
+        {
+            <ul>
+                @foreach (var tag in Document.Metadata.Tags)
+                {
+                    <li>@tag</li>
+                }
+            </ul>
+        }
+    </header>
+    <article>
+        @((MarkupString)Post.Html)
+    </article>
+</section>

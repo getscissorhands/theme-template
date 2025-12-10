@@ -1,0 +1,12 @@
+{
+  "name": "Theme Template",
+  "version": "1.0.0",
+  "description": "A theme template for ScissorHands.NET",
+  "slug": "theme-template",
+  "stylesheets": [
+    "/assets/css/theme.css"
+  ],
+  "scripts": [
+    "/assets/js/theme.js"
+  ]
+}

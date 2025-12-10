@@ -1,0 +1,42 @@
+@layout ScissorHands.Theme.MainLayout
+
+@code {
+    [Parameter]
+    public IEnumerable<ContentDocument> Documents { get; set; } = Enumerable.Empty<ContentDocument>();
+
+    [Parameter]
+    public ThemeManifest Theme { get; set; } = new();
+
+    [Parameter]
+    public SiteOptions Site { get; set; } = new();
+}
+
+<section class="home">
+    <!-- Home page content goes here. -->
+    @foreach (var document in Documents)
+    {
+        <article>
+            <div>
+                <a href="/@document.Metadata.Slug">@document.Metadata.Title</a>
+            </div>
+            @if (string.IsNullOrWhiteSpace(document.Metadata.Description) == false)
+            {
+                <div>
+                    <p>@document.Metadata.Description</p>
+                </div>
+            }
+            @if (document.Metadata.Tags.Any())
+            {
+                <ul>
+                    @foreach (var tag in document.Metadata.Tags)
+                    {
+                        <li>@tag</li>
+                    }
+                </ul>
+            }
+        </article>
+    }
+</section>
+<section class="sidebar">
+    <!-- Sidebar content goes here. -->
+</section>
