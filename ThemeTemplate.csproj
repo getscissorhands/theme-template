@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <LangVersion>latest</LangVersion>
+    <RazorLangVersion>latest</RazorLangVersion>
+
+    <AssemblyName>ScissorHands.Theme.Template</AssemblyName>
+    <RootNamespace>ScissorHands.Theme.Template</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ScissorHands.Theme" Version="1.*-*" />
+  </ItemGroup>
+
+</Project>
