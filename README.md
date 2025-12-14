@@ -8,24 +8,27 @@ This is the overall structure of the theme.
 
 ```text
 .
-├── assets/
-│   ├── css/
-│   │   └── theme.css
-│   ├── images/
-│   │   └── image.png
-│   └── js/
-│       └── theme.js
-│
-├── favicon.ico
-│
-├── theme.json
-│
-├── _Imports.razor
-├── MainLayout.razor
-├── IndexView.razor
-├── PostView.razor
-└── PageView.razor
+└── src/
+    ├── assets/
+    │   ├── css/
+    │   │   └── theme.css
+    │   ├── images/
+    │   │   └── image.png
+    │   └── js/
+    │       └── theme.js
+    │
+    ├── favicon.ico
+    │
+    ├── theme.json
+    │
+    ├── _Imports.razor
+    ├── MainLayout.razor
+    ├── IndexView.razor
+    ├── PostView.razor
+    └── PageView.razor
 ```
+
+> **IMPORTANT**: It's strongly recommended to place all the theme files under the `src` directory for better local testing purpose.
 
 ## Getting Started
 
