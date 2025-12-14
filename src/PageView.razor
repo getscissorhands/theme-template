@@ -1,0 +1,13 @@
+@inherits ScissorHands.Theme.PageViewBase
+@layout MainLayout
+
+<section class="page">
+    <header>
+        <div>
+            @Document.Metadata.Title
+        </div>
+    </header>
+    <article>
+        @((MarkupString)Document.Html)
+    </article>
+</section>

@@ -1,0 +1,28 @@
+@inherits ScissorHands.Theme.PostViewBase
+@layout MainLayout
+
+<section class="post">
+    <header>
+        <div>
+            @Document.Metadata.Title
+        </div>
+        @if (Document.Metadata.Published is { } published)
+        {
+            <div>
+                @published.ToString("MMMM dd, yyyy")
+            </div>
+        }
+        @if (Document.Metadata.Tags.Any())
+        {
+            <ul>
+                @foreach (var tag in Document.Metadata.Tags)
+                {
+                    <li>@tag</li>
+                }
+            </ul>
+        }
+    </header>
+    <article>
+        @((MarkupString)Document.Html)
+    </article>
+</section>
