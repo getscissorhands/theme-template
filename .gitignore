@@ -418,4 +418,5 @@ FodyWeavers.xsd
 *.msp
 
 # Repository specific
+.DS_Store
 ThemeTest/
