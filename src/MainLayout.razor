@@ -4,10 +4,15 @@
 <html lang="en">
 <head>
     <base href="@Site!.BaseUrl" />
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@Site!.Title</title>
     <link rel="icon" type="image/x-icon" href="@($"/themes/{Theme!.Slug.TrimEnd('/')}/favicon.ico")" />
+    <meta name="generator" content="@Site!.Generator" />
+
+    <title>@Site!.Title</title>
+    <meta name="title" content="@((MarkupString)Site!.Title)" />
+    <meta name="description" content="@((MarkupString)Site!.Description)" />
     @if (Theme!.Stylesheets is not null)
     {
         foreach (var css in Theme!.Stylesheets)

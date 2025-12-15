@@ -419,4 +419,5 @@ FodyWeavers.xsd
 
 # Repository specific
 .DS_Store
-ThemeTest/
+Scissorhands.sln
+preview/

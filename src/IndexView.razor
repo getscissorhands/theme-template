@@ -3,22 +3,22 @@
 
 <section class="home">
     <!-- Home page content goes here. -->
-    @foreach (var document in Documents)
+    @foreach (var post in Documents)
     {
         <article>
             <div>
-                <a href="/@document.Metadata.Slug">@document.Metadata.Title</a>
+                <a href="/@post.Metadata.Slug">@post.Metadata.Title</a>
             </div>
-            @if (string.IsNullOrWhiteSpace(document.Metadata.Description) == false)
+            @if (string.IsNullOrWhiteSpace(post.Metadata.Description) == false)
             {
                 <div>
-                    <p>@document.Metadata.Description</p>
+                    <p>@post.Metadata.Description</p>
                 </div>
             }
-            @if (document.Metadata.Tags.Any())
+            @if (post.Metadata.Tags.Any())
             {
                 <ul>
-                    @foreach (var tag in document.Metadata.Tags)
+                    @foreach (var tag in post.Metadata.Tags)
                     {
                         <li>@tag</li>
                     }

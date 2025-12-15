@@ -13,7 +13,7 @@ This is the overall structure of the theme.
     │   ├── css/
     │   │   └── theme.css
     │   ├── images/
-    │   │   └── image.png
+    │   │   └── logo.png
     │   └── js/
     │       └── theme.js
     │
@@ -32,29 +32,7 @@ This is the overall structure of the theme.
 
 ## Getting Started
 
-### GitHub NuGet Package Registry
-
-1. Set environment variables for GitHub NuGet Package Registry.
-
-    ```bash
-    # zsh/bash
-    export GH_PACKAGE_USERNAME="<GITHUB_USERNAME>"
-    export GH_PACKAGE_TOKEN="<GITHUB_TOKEN>"
-    ```
-
-    ```bash
-    # PowerShell
-    $env:GH_PACKAGE_USERNAME = "<GITHUB_USERNAME>"
-    $env:GH_PACKAGE_TOKEN = "<GITHUB_TOKEN>"
-    ```
-
-1. Add a NuGet package for the theme.
-
-    ```bash
-    dotnet add package ScissorHands.Theme --prerelease
-    ```
-
-### `theme.json`
+### Theme Manifest &ndash; `theme.json`
 
 - `theme.json` defines the metadata of the theme.
 
@@ -86,7 +64,7 @@ This is the overall structure of the theme.
 #### `MainLayout.razor` Layout Component
 
 - This is the overall HTML layout structure.
-- Feel free to organise with your taste.
+- It calls both UI components and plugin components.
 
 #### `IndexView.razor` Page Component
 
@@ -100,10 +78,10 @@ This is the overall structure of the theme.
 
 - This is the non-blog post page.
 
-#### Other UI Components
+### UI Components
 
 - Feel free to add extra UI components for each layout and page components.
-- The list of possible UI components are:
+- The list of UI components are below but not limited to:
   - Header
   - Footer
   - Sidebar
@@ -116,9 +94,60 @@ This is the overall structure of the theme.
 - If you prefer multiple CSS and JavaScript files, feel free to do so.
   - Make sure to include all CSS and JavaScript files in `theme.json` so that they're properly loaded.
 
-## Testing Theme
+## Previewing Theme
 
-1. Create a class library project by following the Getting Started section of [ScissorHands.NET](https://github.com/getscissorhands/Scissorhands.NET).
+1. Set environment variables for GitHub NuGet Package Registry.
+
+    ```bash
+    # zsh/bash
+    export GH_PACKAGE_USERNAME="<GITHUB_USERNAME>"
+    export GH_PACKAGE_TOKEN="<GITHUB_TOKEN>"
+    ```
+
+    ```powershell
+    # PowerShell
+    $env:GH_PACKAGE_USERNAME = "<GITHUB_USERNAME>"
+    $env:GH_PACKAGE_TOKEN = "<GITHUB_TOKEN>"
+    ```
+
+1. Create a console app project by following the Getting Started section of [ScissorHands.NET](https://github.com/getscissorhands/Scissorhands.NET).
+1. Add `appsettings.json` that defines the site manifest and plugin manifest.
+
+    ```jsonc
+    {
+      "Logging": {
+        "LogLevel": {
+          "Default": "Information",
+          "Microsoft": "Warning",
+          "Microsoft.Hosting.Lifetime": "Information"
+        }
+      },
+    
+      "Site": {
+        "Title": "ScissorHands.NET &ndash; Theme Template",
+        "Description": "Theme template for ScissorHands.NET static site generator.",
+        "Author": "ScissorHands Team",
+        "Theme": "theme-template",
+        "ContentRoot": "contents",
+        "Output": "dist",
+        "PreviewOutput": "preview",
+        "BaseUrl": "/",
+        "IncludeDateInPostUrl": false
+      },
+    
+      "Plugins": [
+        {
+          "Name": "My Awesome Plugin",
+          "Options": {
+            "Option1": true,
+            "Option2": "lorem ipsum",
+            "Option3": 100
+          }
+        }
+      ]
+    }
+    ```
+
 1. Create a symbolic link under the `themes` directory. Make sure that the symbolic directory should follow the theme's slug.
 1. Add a couple of markdown files representing both blog posts and pages.
 1. Run the blog app.
