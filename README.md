@@ -65,6 +65,16 @@ This is the overall structure of the theme.
 
 - This is the overall HTML layout structure.
 - It calls both UI components and plugin components.
+- To change the way of displaying the `@SiteTitle` value, override the `CalculateSiteTitle()` method:
+
+    ```csharp
+    @code {
+        protected override string CalculateSiteTitle()
+        {
+            // ADD LOGIC HERE
+        }
+    }
+    ```
 
 #### `IndexView.razor` Page Component
 
