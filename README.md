@@ -65,11 +65,22 @@ This is the overall structure of the theme.
 
 - This is the overall HTML layout structure.
 - It calls both UI components and plugin components.
-- To change the way of displaying the `@SiteTitle` value, override the `CalculateSiteTitle()` method:
+- To change the way of displaying the `@PageTitle` value, override the `CalculatePageTitle()` method:
 
     ```csharp
     @code {
-        protected override string CalculateSiteTitle()
+        protected override string CalculatePageTitle()
+        {
+            // ADD LOGIC HERE
+        }
+    }
+    ```
+
+- To change the way of displaying the `@PageDescription` value, override the `CalculatePageDescription()` method:
+
+    ```csharp
+    @code {
+        protected override string CalculatePageDescription()
         {
             // ADD LOGIC HERE
         }
