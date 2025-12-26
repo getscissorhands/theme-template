@@ -127,12 +127,7 @@ This is the overall structure of the theme.
         "Title": "ScissorHands.NET &ndash; Theme Template",
         "Description": "Theme template for ScissorHands.NET static site generator.",
         "Author": "ScissorHands Team",
-        "Theme": "theme-template",
-        "ContentRoot": "contents",
-        "Output": "dist",
-        "PreviewOutput": "preview",
-        "BaseUrl": "/",
-        "IncludeDateInPostUrl": false
+        "Theme": "theme-template"
       },
     
       "Plugins": [
