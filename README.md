@@ -100,15 +100,15 @@ This is the overall structure of the theme.
 
     ```bash
     # zsh/bash
-    export GH_PACKAGE_USERNAME="<GITHUB_USERNAME>"
-    export GH_PACKAGE_TOKEN="<GITHUB_TOKEN>"
+    source ./scripts/setup-gh-auth.sh --username "<GITHUB_USERNAME>" --token "<GITHUB_TOKEN>"
     ```
 
     ```powershell
     # PowerShell
-    $env:GH_PACKAGE_USERNAME = "<GITHUB_USERNAME>"
-    $env:GH_PACKAGE_TOKEN = "<GITHUB_TOKEN>"
+    . ./scripts/setup-gh-auth.ps1 -Username "<GITHUB_USERNAME>" -Token "<GITHUB_TOKEN>"
     ```
+
+   > **NOTE**: Make sure to **sourcing** the script instead of executing it.
 
 1. Create a console app project by following the Getting Started section of [ScissorHands.NET](https://github.com/getscissorhands/Scissorhands.NET).
 1. Add `appsettings.json` that defines the site manifest and plugin manifest.
