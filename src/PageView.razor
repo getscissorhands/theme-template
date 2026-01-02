@@ -4,10 +4,10 @@
 <section class="page">
     <header>
         <div>
-            @Document.Metadata.Title
+            @Document?.Metadata.Title
         </div>
     </header>
     <article>
-        @((MarkupString)Document.Html)
+        @((MarkupString)Document?.Html!)
     </article>
 </section>

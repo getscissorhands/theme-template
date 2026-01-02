@@ -1,7 +1,9 @@
 @inherits ScissorHands.Theme.MainLayoutBase
 
+<CascadingMainLayoutBase Documents="@Documents" Document="@Document" Plugins="@Plugins" Theme="@Theme" Site="@Site">
+
 <!DOCTYPE html>
-<html lang="@Site!.Locale">
+<html lang="@PageLocale">
 <head>
     <base href="@Site!.BaseUrl" />
 
@@ -10,9 +12,9 @@
     <link rel="icon" type="image/x-icon" href="@($"/themes/{Theme!.Slug.TrimEnd('/')}/favicon.ico")" />
     <meta name="generator" content="@Site!.Generator" />
 
-    <title>@SiteTitle</title>
-    <meta name="title" content="@SiteTitle" />
-    <meta name="description" content="@Site!.Description" />
+    <title>@PageTitle</title>
+    <meta name="title" content="@PageTitle" />
+    <meta name="description" content="@PageDescription" />
     @if (Theme!.Stylesheets is not null)
     {
         foreach (var css in Theme!.Stylesheets)
@@ -40,3 +42,5 @@
     }
 </body>
 </html>
+
+</CascadingMainLayoutBase>

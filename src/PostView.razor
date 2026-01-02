@@ -4,15 +4,15 @@
 <section class="post">
     <header>
         <div>
-            @Document.Metadata.Title
+            @Document?.Metadata.Title
         </div>
-        @if (Document.Metadata.Published is { } published)
+        @if (Document?.Metadata.Published is { } published)
         {
             <div>
                 @published.ToString("MMMM dd, yyyy")
             </div>
         }
-        @if (Document.Metadata.Tags.Any())
+        @if (Document?.Metadata.Tags.Any() == true)
         {
             <ul>
                 @foreach (var tag in Document.Metadata.Tags)
@@ -23,6 +23,6 @@
         }
     </header>
     <article>
-        @((MarkupString)Document.Html)
+        @((MarkupString)Document?.Html!)
     </article>
 </section>

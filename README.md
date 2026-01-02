@@ -1,6 +1,6 @@
 # Theme Template
 
-Theme template for ScissorHands.NET, which provides the basic theme structure
+This is the theme template for ScissorHands.NET, which provides the basic theme structure.
 
 ## Theme Structure
 
@@ -25,7 +25,8 @@ This is the overall structure of the theme.
     ├── MainLayout.razor
     ├── IndexView.razor
     ├── PostView.razor
-    └── PageView.razor
+    ├── PageView.razor
+    └── NotFoundView.razor
 ```
 
 > **IMPORTANT**: It's strongly recommended to place all the theme files under the `src` directory for better local testing purpose.
@@ -81,6 +82,17 @@ This is the overall structure of the theme.
     ```csharp
     @code {
         protected override string CalculatePageDescription()
+        {
+            // ADD LOGIC HERE
+        }
+    }
+    ```
+
+- To change the way of displaying the `@PageLocale` value, override the `CalculatePageLocale()` method:
+
+    ```csharp
+    @code {
+        protected override string CalculatePageLocale()
         {
             // ADD LOGIC HERE
         }

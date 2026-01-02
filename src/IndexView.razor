@@ -3,28 +3,35 @@
 
 <section class="home">
     <!-- Home page content goes here. -->
-    @foreach (var post in Documents)
+    @if (Documents?.Any() == false)
     {
-        <article>
-            <div>
-                <a href="/@post.Metadata.Slug">@post.Metadata.Title</a>
-            </div>
-            @if (string.IsNullOrWhiteSpace(post.Metadata.Description) == false)
-            {
+        <p>No posts available.</p>
+    }
+    else
+    {
+        @foreach (var post in Documents!)
+        {
+            <article>
                 <div>
-                    <p>@post.Metadata.Description</p>
+                    <a href="/@post.Metadata.Slug">@post.Metadata.Title</a>
                 </div>
-            }
-            @if (post.Metadata.Tags.Any())
-            {
-                <ul>
-                    @foreach (var tag in post.Metadata.Tags)
-                    {
-                        <li>@tag</li>
-                    }
-                </ul>
-            }
-        </article>
+                @if (string.IsNullOrWhiteSpace(post.Metadata.Description) == false)
+                {
+                    <div>
+                        <p>@post.Metadata.Description</p>
+                    </div>
+                }
+                @if (post.Metadata.Tags.Any())
+                {
+                    <ul>
+                        @foreach (var tag in post.Metadata.Tags)
+                        {
+                            <li>@tag</li>
+                        }
+                    </ul>
+                }
+            </article>
+        }
     }
 </section>
 <section class="sidebar">
