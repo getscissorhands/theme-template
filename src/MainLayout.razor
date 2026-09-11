@@ -9,7 +9,7 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="@($"/themes/{Theme!.Slug.TrimEnd('/')}/favicon.ico")" />
+    <link rel="icon" type="image/x-icon" href="@GetThemeUrl("favicon.ico")" />
     <meta name="generator" content="@Site!.Generator" />
 
     <title>@PageTitle</title>
@@ -19,7 +19,7 @@
     {
         foreach (var css in Theme!.Stylesheets)
         {
-            <link rel="stylesheet" href="@($"/themes/{Theme!.Slug.TrimEnd('/')}{css}")" />
+            <link rel="stylesheet" href="@GetThemeUrl(css)" />
         }
     }
 </head>
@@ -37,10 +37,14 @@
     {
         foreach (var script in Theme!.Scripts)
         {
-            <script src="@($"/themes/{Theme!.Slug.TrimEnd('/')}{script}")"></script>
+            <script src="@GetThemeUrl(script)"></script>
         }
     }
 </body>
 </html>
 
 </CascadingMainLayoutBase>
+
+@code {
+    private string GetThemeUrl(string path) => $"themes/{Theme!.Slug.Trim('/')}/{path.TrimStart('/')}";
+}

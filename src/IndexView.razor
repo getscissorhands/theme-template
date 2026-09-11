@@ -13,7 +13,7 @@
         {
             <article>
                 <div>
-                    <a href="/@post.Metadata.Slug">@post.Metadata.Title</a>
+                    <a href="@post.Metadata.Slug.TrimStart('/')">@post.Metadata.Title</a>
                 </div>
                 @if (string.IsNullOrWhiteSpace(post.Metadata.Description) == false)
                 {
