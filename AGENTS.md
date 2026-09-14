@@ -73,6 +73,25 @@ The engine supplies `PageNavigation.Previous` and `.Next`; the theme controls th
 - Do not add Python/Node test harnesses, browser dependencies, or asset build tooling to the starter solely for validation. Use local/session tooling when needed unless repository test infrastructure is explicitly requested.
 - Documentation-only edits do not require a .NET build.
 - Keep package versions centralized and project `PackageReference` entries versionless. Preserve the existing major-version floating policy unless asked to change it.
-- Keep changes focused, preserve unrelated user edits, and stage only intended files or hunks. Use Conventional Commit messages for commits.
 - Do not edit or commit generated `bin`, `obj`, `preview`, `dist`, or package outputs. Do not publish packages or trigger release workflows unless requested.
 - Report meaningful behavior changes and any validation limitations accurately. Keep this guide durable; do not add session history, temporary plans, or copied engine requirement tables.
+
+## Commit and pull request policy
+
+### Atomic commits
+
+- Make each commit one complete logical change that can be reviewed and reverted independently. Do not mix unrelated features, fixes, formatting, or dependency updates.
+- Keep tightly coupled implementation, documentation, and validation changes together. Do not split commits solely by file type or leave a commit dependent on a later fix to build or work.
+- Commit each completed logical change after the relevant validation, without waiting for a separate commit request, unless the user asks to leave changes uncommitted. Documentation-only changes follow the validation guidance above.
+- Use Conventional Commits: `type(scope): description`, with an optional scope, such as `feat(theme): add a colour toggle` or `docs: simplify setup`. Mark breaking changes with `!` or a `BREAKING CHANGE:` footer and include applicable co-author trailers.
+- Inspect the staged diff and stage only intended files or hunks. Preserve unrelated user edits; do not include them merely because they are in the working tree.
+- Do not amend, rebase, squash, force-push, or otherwise rewrite existing history unless explicitly requested. Apply the atomic convention to new commits, not by reorganizing past work.
+
+### Pull requests
+
+- Create a pull request when requested. Use the current feature branch for follow-up work on its existing PR rather than opening duplicate PRs.
+- If the branch has an open PR, push each completed, validated commit to its head branch without waiting for a separate push request, unless the user asks not to push.
+- Follow the [PR template](.github/PULL_REQUEST_TEMPLATE.md), retaining every section and using `N/A` where appropriate.
+- Explain why the change is needed, summarize the approach, and call out breaking changes, migration steps, and review considerations. Describe how to check the result and disclose validation that was blocked or not performed.
+- Keep the PR description accurate as its scope changes. Use issue-closing references only for issues the change actually resolves.
+- Address review feedback with focused follow-up commits and explain the resolution in the relevant thread. Do not merge a PR unless explicitly requested.
