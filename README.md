@@ -9,11 +9,9 @@ See the **[theme documentation](https://getscissorhands.app/docs/themes/)** for 
 - [.NET 10+ SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 - [Visual Studio 2026](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/) with [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
 
-## Get Started
+## Getting Started
 
-[![Use this template](https://img.shields.io/badge/Use_this_template-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://github.com/getscissorhands/theme-template/generate)
-
-Create your repository using the badge above, then clone it locally.
+Create your repository with [![Use this template](https://img.shields.io/badge/Use_this_template-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://github.com/getscissorhands/theme-template/generate), then clone it locally.
 
 ## Theme Layout
 
@@ -58,7 +56,7 @@ New-Item -ItemType SymbolicLink -Path .\sample\themes\<theme-slug> -Target ..\..
 
 Then build and preview from the repository root:
 
-```shell
+```bash
 dotnet build
 cd sample
 dotnet run -- --preview
