@@ -27,8 +27,30 @@ dotnet run -- --preview
 
 See the [preview instructions](sample/README.md) for generating static files and locating the output.
 
-## Project Layout
+## Theme Layout
 
-- [`src/`](src/): Razor views and theme metadata.
-- [`src/assets/`](src/assets/): CSS, JavaScript, and theme images.
-- [`sample/`](sample/): Local preview application and example Markdown content.
+The theme files live under [`src/`](src/):
+
+```text
+src/
+|-- assets/
+|   |-- css/
+|   |   `-- theme.css
+|   |-- images/
+|   |   `-- logo.png
+|   `-- js/
+|       `-- theme.js
+|-- favicon.ico
+|-- theme.json
+|-- ThemeTemplate.csproj
+|-- _Imports.razor
+|-- MainLayout.razor
+|-- IndexView.razor
+|-- PostView.razor
+|-- PageView.razor
+|-- NotFoundView.razor
+|-- TagListView.razor
+`-- TagView.razor
+```
+
+The [`sample/`](sample/) directory contains the local preview application and example Markdown content.
