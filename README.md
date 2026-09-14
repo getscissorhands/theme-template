@@ -4,9 +4,14 @@ A starter theme for ScissorHands.NET with Razor views, responsive styling, light
 
 See the **[theme documentation](https://getscissorhands.app/docs/themes/)** for setup, configuration, component APIs, navigation, and customization.
 
+## Prerequisites
+
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) to build and preview the theme.
+- [Visual Studio 2026](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/) with [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit), recommended for Razor editing and IntelliSense.
+
 ## Get Started
 
-Use **Use this template** on GitHub to create your repository, then clone it locally. Install the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) to build and preview the theme.
+Use **Use this template** on GitHub to create your repository, then clone it locally.
 
 ## Preview Locally
 
