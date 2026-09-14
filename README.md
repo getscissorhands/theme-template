@@ -11,7 +11,9 @@ See the **[theme documentation](https://getscissorhands.app/docs/themes/)** for 
 
 ## Get Started
 
-Use **Use this template** on GitHub to create your repository, then clone it locally.
+[![Use this template](https://img.shields.io/badge/Use_this_template-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://github.com/getscissorhands/theme-template/generate)
+
+Create your repository using the badge above, then clone it locally.
 
 ## Theme Layout
 
