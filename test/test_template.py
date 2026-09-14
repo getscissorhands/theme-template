@@ -19,6 +19,9 @@ class RenderedPage(HTMLParser):
         self.html = path.read_text(encoding="utf-8")
         self.links = []
         self.assets = []
+        self.images = []
+        self.elements = []
+        self.ids = set()
         self.base = None
         self.navigation = None
         self.link = None
@@ -26,6 +29,9 @@ class RenderedPage(HTMLParser):
 
     def handle_starttag(self, tag, attributes):
         attributes = dict(attributes)
+        self.elements.append(tag)
+        if "id" in attributes:
+            self.ids.add(attributes["id"])
         if tag == "nav":
             self.navigation = attributes.get("aria-label")
         elif tag == "base":
@@ -37,6 +43,8 @@ class RenderedPage(HTMLParser):
         elif tag == "a":
             self.link = dict(attributes, navigation=self.navigation, text="")
             self.links.append(self.link)
+        elif tag == "img":
+            self.images.append(attributes)
 
     def handle_endtag(self, tag):
         if tag == "nav":
@@ -86,6 +94,23 @@ class TemplateTests(unittest.TestCase):
         )
         cls.settings_path.write_text(json.dumps(settings), encoding="utf-8")
 
+        cls.run_dotnet("build", str(solution), "--verbosity", "quiet")
+        cls.output = cls.sample / "dist"
+        cls.generate()
+        cls.showcase = cls.read_pages()
+        cls.showcase_files = {
+            path.relative_to(cls.output).as_posix()
+            for path in cls.output.rglob("*")
+            if path.is_file()
+        }
+
+        # Keep synthetic edge cases independent of the growing, separately tested showcase.
+        seeds = {"pages/about.md", "pages/not-found.md", "posts/hello-scissorhands.md"}
+        contents = cls.sample / "contents"
+        for path in contents.rglob("*.md"):
+            if path.relative_to(contents).as_posix() not in seeds:
+                path.unlink()
+
         cls.write_content("pages/guide/index.md", title="Guide", show_in_navigation=True)
         cls.write_content(
             "pages/guide/01-first.md",
@@ -123,14 +148,8 @@ class TemplateTests(unittest.TestCase):
             show_in_navigation=True,
         )
 
-        cls.run_dotnet("build", str(solution), "--verbosity", "quiet")
         cls.generate()
-        cls.output = cls.sample / "dist"
-        cls.pages = {
-            str(path.relative_to(cls.output)): RenderedPage(path)
-            for path in cls.output.rglob("*.html")
-            if "themes" not in path.relative_to(cls.output).parts
-        }
+        cls.pages = cls.read_pages()
 
         settings["Site"]["UseLocaleInUrl"] = True
         cls.settings_path.write_text(json.dumps(settings), encoding="utf-8")
@@ -163,8 +182,111 @@ class TemplateTests(unittest.TestCase):
     def generate(cls):
         cls.run_dotnet("run", "--no-launch-profile", "--no-build", "--", "--build")
 
+    @classmethod
+    def read_pages(cls):
+        return {
+            str(path.relative_to(cls.output)): RenderedPage(path)
+            for path in cls.output.rglob("*.html")
+            if "themes" not in path.relative_to(cls.output).parts
+        }
+
     def page(self, route):
         return self.pages[str(Path(route) / "index.html")]
+
+    def showcase_page(self, route):
+        return self.showcase[str(Path(route) / "index.html")]
+
+    def test_shipped_showcase_navigation_and_reading_sequence(self):
+        routes = (
+            "about",
+            "theme-guide",
+            "theme-guide/layout",
+            "theme-guide/recipes/content",
+            "theme-guide/publishing",
+        )
+        for path, page in self.showcase.items():
+            with self.subTest(path=path):
+                nav = page.navigation_links("Primary navigation")
+                self.assertEqual([".", *routes, "tags"], [link["href"] for link in nav])
+                self.assertIn('<span class="navigation-label">Recipes</span>', page.html)
+                self.assertNotIn('<a href="theme-guide/recipes">', page.html)
+        for index, route in enumerate(routes):
+            expected = {}
+            if index:
+                expected["prev"] = routes[index - 1]
+            if index + 1 < len(routes):
+                expected["next"] = routes[index + 1]
+            pager = self.showcase_page(route).navigation_links("Page navigation")
+            with self.subTest(route=route):
+                self.assertEqual(expected, {link["rel"]: link["href"] for link in pager})
+        self.assertEqual([], self.showcase_page("reference").navigation_links("Page navigation"))
+        self.assertNotIn("theme-guide/index/index.html", self.showcase_files)
+        self.assertNotIn("draft-example/index.html", self.showcase_files)
+        self.assertNotIn("tags/draft-only/index.html", self.showcase_files)
+        self.assertNotIn("#draft-only", self.showcase_page("tags").html)
+        self.assertNotIn("theme-guide/recipes/index.html", self.showcase_files)
+
+    def test_shipped_showcase_renders_markdown_and_shared_tags(self):
+        post_titles = [
+            link["text"].strip()
+            for link in self.showcase_page("").links
+            if link["href"].startswith("2026/")
+        ]
+        self.assertEqual(
+            ["Designing a small site for readers", "A Markdown style sampler", "Hello, ScissorHands"],
+            post_titles,
+        )
+        article = self.showcase_page("2026/09/12/markdown-showcase")
+        for element in ("h2", "h3", "strong", "em", "blockquote", "ul", "ol", "table", "pre", "code", "hr"):
+            self.assertIn(element, article.elements)
+        self.assertTrue(article.images)
+        self.assertEqual("images/sample.svg", article.images[0]["src"])
+        self.assertTrue(article.images[0]["alt"])
+        topic = self.showcase_page("tags/theme")
+        self.assertIn("<h2>Posts</h2>", topic.html)
+        self.assertIn("<h2>Pages</h2>", topic.html)
+        titles = {link["text"].strip() for link in topic.links if link["navigation"] is None}
+        self.assertTrue(
+            {
+                "A Markdown style sampler", "Designing a small site for readers",
+                "Theme guide", "Layout and typography", "Writing content",
+                "Publishing", "Reference notes",
+            }.issubset(titles)
+        )
+
+    def test_shipped_showcase_links_and_images_resolve_under_base(self):
+        base = "https://example.test/docs/"
+        for path, page in self.showcase.items():
+            self.assertEqual("/docs/", page.base)
+            urls = (
+                page.assets
+                + [image["src"] for image in page.images]
+                + [link["href"] for link in page.links]
+            )
+            for url in urls:
+                with self.subTest(path=path, url=url):
+                    parsed = urlparse(url)
+                    if parsed.scheme:
+                        self.assertIn(parsed.scheme, ("https", "http"))
+                        self.assertTrue(parsed.netloc)
+                        continue
+                    self.assertFalse(url.startswith("/"))
+                    resolved = urlparse(urljoin(base, url))
+                    self.assertTrue(resolved.path.startswith("/docs/"))
+                    relative = resolved.path.removeprefix("/docs/").rstrip("/")
+                    candidates = []
+                    for route in (relative, unquote(relative)):
+                        candidates.extend(
+                            [route, route + "/index.html"] if route else ["index.html"]
+                        )
+                    target = next(
+                        (candidate for candidate in candidates if candidate in self.showcase_files),
+                        None,
+                    )
+                    self.assertIsNotNone(target, f"Unresolved local URL: {url}")
+                    if resolved.fragment:
+                        target_page = self.showcase[str(Path(target))]
+                        self.assertIn(unquote(resolved.fragment), target_page.ids)
 
     def test_navigation_on_every_view_preserves_engine_order(self):
         expected = [
