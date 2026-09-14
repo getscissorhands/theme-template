@@ -9,16 +9,11 @@ tags:
   - markdown
 ---
 
-Not every published page needs a place in the header. This page uses
-`show_in_navigation: false`, so it stays out of the main navigation and the
-automatic Previous/Next sequence.
+Not every published page needs a place in the header. This page uses `show_in_navigation: false`, so it stays out of the main navigation and the automatic Previous/Next sequence.
 
-It is still reachable through links and the [theme tag](tags/theme), where it
-appears beside opted-in pages and dated posts.
+It is still reachable through links and the [theme tag](tags/theme), where it appears beside opted-in pages and dated posts.
 
-> Navigation visibility is a presentation setting, not access control. Do not
-> place private content in a generated site and rely on an absent menu link
-> to protect it.
+> Navigation visibility is a presentation setting, not access control. Do not place private content in a generated site and rely on an absent menu link to protect it.
 
 ## Useful source locations
 
