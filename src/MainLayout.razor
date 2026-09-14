@@ -1,6 +1,16 @@
+@using ScissorHands.Core.Models
 @inherits ScissorHands.Theme.MainLayoutBase
 
-<CascadingMainLayoutBase Documents="@Documents" Document="@Document" Plugins="@Plugins" Theme="@Theme" Site="@Site">
+<CascadingMainLayoutBase Documents="@Documents"
+                         TaggedDocuments="@TaggedDocuments"
+                         Tag="@Tag"
+                         TaggedPosts="@TaggedPosts"
+                         TaggedPages="@TaggedPages"
+                         Document="@Document"
+                         PageNavigation="@PageNavigation"
+                         Plugins="@Plugins"
+                         Theme="@Theme"
+                         Site="@Site">
 
 <!DOCTYPE html>
 <html lang="@PageLocale">
@@ -24,14 +34,29 @@
     }
 </head>
 <body>
-    <header>
-        <!-- Header content goes here. -->
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+        <div class="site-shell site-header-inner">
+            <a class="site-title" href=".">@Site!.Title</a>
+            <nav class="site-navigation" aria-label="Primary navigation">
+                <ul class="navigation-list">
+                    <li><a href=".">Home</a></li>
+                    @RenderNavigation(NavigationTree)
+                    <li><a href="tags">Tags</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
-    <main>
+    <main id="main-content" class="site-shell site-main">
         @Body
     </main>
-    <footer>
-        <!-- Footer content goes here. -->
+    <footer class="site-footer">
+        <div class="site-shell site-footer-inner">
+            <p>&copy; @DateTime.UtcNow.Year @Site.Author</p>
+            <p data-current-time-container hidden>
+                Your local time: <time data-current-time></time>
+            </p>
+        </div>
     </footer>
     @if (Theme!.Scripts is not null)
     {
@@ -46,5 +71,25 @@
 </CascadingMainLayoutBase>
 
 @code {
-    private string GetThemeUrl(string path) => $"themes/{Theme!.Slug.Trim('/')}/{path.TrimStart('/')}";
+    private RenderFragment RenderNavigation(IReadOnlyList<NavigationNode> nodes) => @<text>
+        @foreach (var item in nodes)
+        {
+            <li>
+                @if (item.Url is not null)
+                {
+                    <a href="@item.Url">@item.Title</a>
+                }
+                else
+                {
+                    <span class="navigation-label">@item.Title</span>
+                }
+                @if (item.Children.Count > 0)
+                {
+                    <ul class="navigation-children">
+                        @RenderNavigation(item.Children)
+                    </ul>
+                }
+            </li>
+        }
+    </text>;
 }

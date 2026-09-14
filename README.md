@@ -27,8 +27,8 @@ This is the overall structure of the theme.
     ├── PostView.razor
     ├── PageView.razor
     ├── NotFoundView.razor
-    ├── TagListView.razor (optional)
-    └── TagView.razor (optional)
+    ├── TagListView.razor
+    └── TagView.razor
 ```
 
 > **IMPORTANT**: It's strongly recommended to place all the theme files under the `src` directory for better local testing purpose.
@@ -80,6 +80,8 @@ Discovery matches the normalized suffix of the theme component namespace to the 
 
 - This is the overall HTML layout structure.
 - It calls both UI components and plugin components.
+- It renders the engine's `NavigationTree` between Home and Tags, including nested pages and non-clickable groups. Nested navigation remains visible without JavaScript.
+- It forwards `PageNavigation` and all four tag parameters through `CascadingMainLayoutBase` so child views receive their data.
 - Keep internal links and theme asset URLs base-relative (for example, `themes/...` rather than `/themes/...`) so the `<base href="@Site.BaseUrl">` element also works when `Site:BaseUrl` is a subpath.
 - To change the way of displaying the `@PageTitle` value, override the `CalculatePageTitle()` method:
 
@@ -125,12 +127,34 @@ Discovery matches the normalized suffix of the theme component namespace to the 
 #### `PageView.razor` Page Component
 
 - This is the non-blog post page.
+- It displays page tags and the engine-prepared previous/next links, omitting unavailable links.
 
-#### Optional Tag Components
+#### Page Navigation
+
+Pages opt into navigation through frontmatter:
+
+```yaml
+---
+title: About
+slug: about
+show_in_navigation: true
+---
+```
+
+The sample About page uses this setting; no hard-coded About link is needed in the layout. Pages without the setting, drafts, posts, and the 404 page are excluded from the navigation sequence. An existing hidden parent also hides its descendants from navigation. Page and tag content generation remain independent of this opt-in.
+
+Navigation order follows source filenames, with `index.md` first in each directory and directories traversed depth-first. Use filenames such as `01-start.md` and `02-customize.md` to control order, and explicit `slug` values to keep URLs stable when renaming files. The hierarchy is derived from the resolved slugs, including non-clickable groups for missing parent pages.
+
+A nested page such as `pages/guide/index.md` without an explicit slug now resolves to `guide`, not `guide/index`. Set an explicit slug if migrating an existing `/index` URL.
+
+Content and tag links use the package's shared `GetContentUrl` and `GetTagUrl` helpers for escaping and normalization. The index view calls `ContentUrlHelper.GetTagUrl` directly because `IndexViewBase` only exposes the content helper. Navigation URLs are already formatted by the engine and are rendered unchanged.
+
+#### Tag Components
 
 - `TagListView.razor` renders the tag index.
 - `TagView.razor` renders the page for an individual tag.
-- Both tag views are optional; omit them when the theme does not provide tag pages.
+- The included index, post, and page views link their tags to these pages.
+- Starting with `1.0.0-preview.20260914.1`, themes must provide all seven roles: main layout, index, post, page, not-found, tag list, and tag view. Both tag components are required; the engine no longer falls back to built-in tag views.
 
 ### UI Components
 
@@ -144,6 +168,9 @@ Discovery matches the normalized suffix of the theme component namespace to the 
 
 ### CSS, JavaScripts & Favicons
 
+- The included `theme.css` provides a compact reset and a responsive, accessible editorial starter with light and dark color schemes.
+- The included `theme.js` progressively enhances the footer with the visitor's localized current time. The footer stays hidden when JavaScript is unavailable.
+- Both files are intentionally framework-free and can be replaced or removed as the theme evolves.
 - It's recommended to follow the default naming convention like `theme.css` and `theme.js`.
 - If you prefer multiple CSS and JavaScript files, feel free to do so.
   - Make sure to include all CSS and JavaScript files in `theme.json` so that they're properly loaded.
@@ -151,21 +178,22 @@ Discovery matches the normalized suffix of the theme component namespace to the 
 
 ## Previewing Theme
 
-1. Set environment variables for GitHub NuGet Package Registry.
+The solution uses centrally managed `1.*-*` package versions in `Directory.Packages.props`. This includes stable and preview releases within major version 1. To refresh cached floating resolutions, run `dotnet restore --force-evaluate --no-http-cache` from the repository root. The template uses APIs introduced in `1.0.0-preview.20260914.1`.
+
+1. Create an empty web app.
 
     ```bash
-    # zsh/bash
-    source ./scripts/setup-gh-auth.sh --username "<GITHUB_USERNAME>" --token "<GITHUB_TOKEN>"
+    dotnet new web -n MyScissorHandsApp
     ```
 
-    ```powershell
-    # PowerShell
-    . ./scripts/setup-gh-auth.ps1 -Username "<GITHUB_USERNAME>" -Token "<GITHUB_TOKEN>"
+1. Add the latest preview of `ScissorHands.Web` from [NuGet.org](https://www.nuget.org/packages/ScissorHands.Web).
+
+    ```bash
+    dotnet add ./MyScissorHandsApp package ScissorHands.Web --prerelease
     ```
 
-   > **NOTE**: Make sure to **sourcing** the script instead of executing it.
+   No custom NuGet source or GitHub Packages credentials are required.
 
-1. Create a console app project by following the Getting Started section of [ScissorHands.NET](https://github.com/getscissorhands/Scissorhands.NET).
 1. Add `appsettings.json` that defines the site manifest and plugin manifest.
 
     ```jsonc
@@ -207,3 +235,7 @@ Discovery matches the normalized suffix of the theme component namespace to the 
     ```
 
 1. Verify the generated HTML properly renders your theme.
+
+## Validating Package Updates
+
+Run `python -m unittest discover -s test -v` with Python 3 and the .NET 10 SDK installed. The dependency-free test harness builds an isolated copy and generates fixture pages with the currently resolved packages. It checks navigation across all views, previous/next links, hidden pages, nested routes, tag data, and localized/base-relative URLs without modifying a running preview.

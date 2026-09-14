@@ -1,0 +1,46 @@
+@inherits ScissorHands.Theme.TagViewBase
+@layout MainLayout
+
+<section class="content-shell tag">
+    <header class="content-header">
+        <a class="back-link" href="tags"><span aria-hidden="true">&larr;</span> All tags</a>
+        <h1>#@Tag</h1>
+    </header>
+    @if (TaggedPosts?.Any() != true && TaggedPages?.Any() != true)
+    {
+        <p class="empty-state">No content available for this tag.</p>
+    }
+    else
+    {
+        @if (TaggedPosts?.Any() == true)
+        {
+            <section class="tag-section">
+                <h2>Posts</h2>
+                <ul class="content-list">
+                    @foreach (var post in TaggedPosts)
+                    {
+                        <li>
+                            <a href="@GetContentUrl(post.Metadata.Slug)">@post.Metadata.Title</a>
+                            @if (post.Metadata.Published is { } published)
+                            {
+                                <time datetime="@published.ToString("O")">@published.ToString("MMMM dd, yyyy")</time>
+                            }
+                        </li>
+                    }
+                </ul>
+            </section>
+        }
+        @if (TaggedPages?.Any() == true)
+        {
+            <section class="tag-section">
+                <h2>Pages</h2>
+                <ul class="content-list">
+                    @foreach (var pageDocument in TaggedPages)
+                    {
+                        <li><a href="@GetContentUrl(pageDocument.Metadata.Slug)">@pageDocument.Metadata.Title</a></li>
+                    }
+                </ul>
+            </section>
+        }
+    }
+</section>

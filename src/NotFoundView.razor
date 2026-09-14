@@ -1,11 +1,12 @@
 @inherits ScissorHands.Theme.NotFoundViewBase
 @layout MainLayout
 
-<section class="not-found">
-    <header class="not-found header">
-        <h1 class="not-found title">@(!string.IsNullOrWhiteSpace(Document?.Metadata.Title) ? Document.Metadata.Title : "404 - Not Found")</h1>
+<section class="content-shell not-found">
+    <header class="content-header">
+        <p class="error-code">404</p>
+        <h1>@(!string.IsNullOrWhiteSpace(Document?.Metadata.Title) ? Document.Metadata.Title : "Page not found")</h1>
     </header>
-    <article class="not-found body">
+    <article class="prose">
         @if (string.IsNullOrWhiteSpace(Document?.Html) == true)
         {
             <p>The page you are looking for does not exist.</p>
@@ -15,4 +16,5 @@
             @((MarkupString)Document?.Html!)
         }
     </article>
+    <a class="text-link" href="."><span aria-hidden="true">&larr;</span> Return home</a>
 </section>
