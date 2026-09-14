@@ -17,7 +17,25 @@ Use **Use this template** on GitHub to create your repository, then clone it loc
 
 The sample needs a symbolic link at `sample/themes/<theme-slug>` pointing to `src`, with the relative target `../../src`. The repository initialization workflow creates this link; create it manually if it is missing.
 
-From the repository root:
+If the link is missing, run one of the following from the repository root. Replace `theme-template` with the `Site:Theme` value in `sample/appsettings.json` if you renamed the theme.
+
+**PowerShell (`pwsh`)**
+
+```powershell
+New-Item -ItemType Directory -Path .\sample\themes -Force | Out-Null
+New-Item -ItemType SymbolicLink -Path .\sample\themes\theme-template -Target ..\..\src
+```
+
+**Bash**
+
+```bash
+mkdir -p sample/themes
+ln -s ../../src sample/themes/theme-template
+```
+
+On Windows, creating symbolic links may require Developer Mode or an elevated shell.
+
+Then build and preview from the repository root:
 
 ```shell
 dotnet build
