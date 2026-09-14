@@ -1,187 +1,63 @@
 # Theme Template
 
-This is the theme template for ScissorHands.NET, which provides the basic theme structure.
+A starter theme for ScissorHands.NET with Razor views, responsive styling, light/dark mode, and sample content. No UI framework or JavaScript build step is required.
 
-## Theme Structure
+See the **[theme documentation](https://getscissorhands.app/docs/themes/)** for setup, configuration, component APIs, navigation, and customization.
 
-This is the overall structure of the theme.
+## Prerequisites
+
+- [.NET 10+ SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+- [Visual Studio 2026](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/) with [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
+
+## Get Started
+
+Use **Use this template** on GitHub to create your repository, then clone it locally.
+
+## Theme Layout
 
 ```text
-.
-└── src/
-    ├── assets/
-    │   ├── css/
-    │   │   └── theme.css
-    │   ├── images/
-    │   │   └── logo.png
-    │   └── js/
-    │       └── theme.js
-    │
-    ├── favicon.ico
-    │
-    ├── theme.json
-    │
-    ├── _Imports.razor
-    ├── MainLayout.razor
-    ├── IndexView.razor
-    ├── PostView.razor
-    ├── PageView.razor
-    └── NotFoundView.razor
+src/
+├── assets/
+│   ├── css/
+│   │   └── theme.css
+│   ├── images/
+│   │   └── logo.png
+│   └── js/
+│       └── theme.js
+├── favicon.ico
+├── theme.json
+├── _Imports.razor
+├── MainLayout.razor
+├── IndexView.razor
+├── PostView.razor
+├── PageView.razor
+├── NotFoundView.razor
+├── TagListView.razor
+└── TagView.razor
 ```
 
-> **IMPORTANT**: It's strongly recommended to place all the theme files under the `src` directory for better local testing purpose.
+## Local Preview
 
-## Getting Started
+The sample needs a symbolic link at `sample/themes/<theme-slug>` pointing to `src`, with the relative target `../../src`. The repository initialization workflow creates this link; create it manually if it is missing.
 
-### Theme Manifest &ndash; `theme.json`
+If the link is missing, run one of the following from the repository root. Replace `<theme-slug>` with the `Site:Theme` value in `sample/appsettings.json` if you renamed the theme.
 
-- `theme.json` defines the metadata of the theme.
+```bash
+# zsh/bash
+mkdir -p sample/themes
+ln -s ../../src sample/themes/<theme-slug>
+```
 
-    ```jsonc
-    {
-      "name": "Theme Template",
-      "version": "1.0.0",
-      "description": "A theme template for ScissorHands.NET",
-      "slug": "theme-template",
-      "stylesheets": [
-        "/assets/css/theme.css"
-      ],
-      "scripts": [
-        "/assets/js/theme.js"
-      ]
-    }
-    ```
+```powershell
+# PowerShell
+New-Item -ItemType Directory -Path .\sample\themes -Force
+New-Item -ItemType SymbolicLink -Path .\sample\themes\<theme-slug> -Target ..\..\src
+```
 
-  You can have one or more CSS and JavaScript files. If you choose to do so, make sure to include them all in this `theme.json`.
+Then build and preview from the repository root:
 
-### Components
-
-#### `_Imports.razor` Global Component
-
-- Set up namespace of your theme.
-- Examples:
-  - `@namespace MyScissorHands.Theme.AwesomeTemplate`
-
-#### `MainLayout.razor` Layout Component
-
-- This is the overall HTML layout structure.
-- It calls both UI components and plugin components.
-- To change the way of displaying the `@PageTitle` value, override the `CalculatePageTitle()` method:
-
-    ```csharp
-    @code {
-        protected override string CalculatePageTitle()
-        {
-            // ADD LOGIC HERE
-        }
-    }
-    ```
-
-- To change the way of displaying the `@PageDescription` value, override the `CalculatePageDescription()` method:
-
-    ```csharp
-    @code {
-        protected override string CalculatePageDescription()
-        {
-            // ADD LOGIC HERE
-        }
-    }
-    ```
-
-- To change the way of displaying the `@PageLocale` value, override the `CalculatePageLocale()` method:
-
-    ```csharp
-    @code {
-        protected override string CalculatePageLocale()
-        {
-            // ADD LOGIC HERE
-        }
-    }
-    ```
-
-#### `IndexView.razor` Page Component
-
-- This is the landing page of your static website.
-
-#### `PostView.razor` Page Component
-
-- This is the blog post page.
-
-#### `PageView.razor` Page Component
-
-- This is the non-blog post page.
-
-### UI Components
-
-- Feel free to add extra UI components for each layout and page components.
-- The list of UI components are below but not limited to:
-  - Header
-  - Footer
-  - Sidebar
-  - Navigation
-  - Widgets
-
-### CSS, JavaScripts & Favicons
-
-- It's recommended to follow the default naming convention like `theme.css` and `theme.js`.
-- If you prefer multiple CSS and JavaScript files, feel free to do so.
-  - Make sure to include all CSS and JavaScript files in `theme.json` so that they're properly loaded.
-
-## Previewing Theme
-
-1. Set environment variables for GitHub NuGet Package Registry.
-
-    ```bash
-    # zsh/bash
-    source ./scripts/setup-gh-auth.sh --username "<GITHUB_USERNAME>" --token "<GITHUB_TOKEN>"
-    ```
-
-    ```powershell
-    # PowerShell
-    . ./scripts/setup-gh-auth.ps1 -Username "<GITHUB_USERNAME>" -Token "<GITHUB_TOKEN>"
-    ```
-
-   > **NOTE**: Make sure to **sourcing** the script instead of executing it.
-
-1. Create a console app project by following the Getting Started section of [ScissorHands.NET](https://github.com/getscissorhands/Scissorhands.NET).
-1. Add `appsettings.json` that defines the site manifest and plugin manifest.
-
-    ```jsonc
-    {
-      "Logging": {
-        "LogLevel": {
-          "Default": "Information",
-          "Microsoft": "Warning",
-          "Microsoft.Hosting.Lifetime": "Information"
-        }
-      },
-    
-      "Site": {
-        "Title": "ScissorHands.NET &ndash; Theme Template",
-        "Description": "Theme template for ScissorHands.NET static site generator.",
-        "Author": "ScissorHands Team",
-        "Theme": "theme-template"
-      },
-    
-      "Plugins": [
-        {
-          "Name": "My Awesome Plugin",
-          "Options": {
-            "Option1": true,
-            "Option2": "lorem ipsum",
-            "Option3": 100
-          }
-        }
-      ]
-    }
-    ```
-
-1. Create a symbolic link under the `themes` directory. Make sure that the symbolic directory should follow the theme's slug.
-1. Add a couple of markdown files representing both blog posts and pages.
-1. Run the blog app.
-
-    ```bash
-    dotnet run -- --preview
-    ```
-
-1. Verify the generated HTML properly renders your theme.
+```shell
+dotnet build
+cd sample
+dotnet run -- --preview
+```

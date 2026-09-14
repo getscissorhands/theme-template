@@ -1,6 +1,16 @@
+@using ScissorHands.Core.Models
 @inherits ScissorHands.Theme.MainLayoutBase
 
-<CascadingMainLayoutBase Documents="@Documents" Document="@Document" Plugins="@Plugins" Theme="@Theme" Site="@Site">
+<CascadingMainLayoutBase Documents="@Documents"
+                         TaggedDocuments="@TaggedDocuments"
+                         Tag="@Tag"
+                         TaggedPosts="@TaggedPosts"
+                         TaggedPages="@TaggedPages"
+                         Document="@Document"
+                         PageNavigation="@PageNavigation"
+                         Plugins="@Plugins"
+                         Theme="@Theme"
+                         Site="@Site">
 
 <!DOCTYPE html>
 <html lang="@PageLocale">
@@ -9,38 +19,114 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="@($"/themes/{Theme!.Slug.TrimEnd('/')}/favicon.ico")" />
+    <link rel="icon" type="image/x-icon" href="@GetThemeUrl("favicon.ico")" />
     <meta name="generator" content="@Site!.Generator" />
 
     <title>@PageTitle</title>
     <meta name="title" content="@PageTitle" />
     <meta name="description" content="@PageDescription" />
+    <script>
+        (() => {
+            try {
+                const preference = localStorage.getItem("scissorhands-theme-mode");
+                if (preference === "light" || preference === "dark") {
+                    document.documentElement.dataset.theme = preference;
+                }
+            } catch (error) {
+                if (!(error instanceof DOMException) || error.name !== "SecurityError") throw error;
+                console.warn("Colour preference storage is unavailable; using the system preference.", error);
+            }
+        })();
+    </script>
     @if (Theme!.Stylesheets is not null)
     {
         foreach (var css in Theme!.Stylesheets)
         {
-            <link rel="stylesheet" href="@($"/themes/{Theme!.Slug.TrimEnd('/')}{css}")" />
+            <link rel="stylesheet" href="@GetThemeUrl(css)" />
         }
     }
 </head>
 <body>
-    <header>
-        <!-- Header content goes here. -->
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+        <div class="site-shell site-header-inner">
+            <a class="site-title" href=".">@Site!.Title</a>
+            <nav class="site-navigation" aria-label="Primary navigation">
+                <ul class="navigation-list">
+                    <li><a href=".">Home</a></li>
+                    @RenderNavigation(NavigationTree)
+                    <li><a href="tags">Tags</a></li>
+                    <li>
+                        <button class="theme-toggle" type="button" data-theme-toggle
+                                aria-label="Switch to dark mode" title="Switch to dark mode" hidden>
+                            <svg class="theme-icon-dark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"></path>
+                            </svg>
+                            <svg class="theme-icon-light" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"></path>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </header>
-    <main>
+    <main id="main-content" class="site-shell site-main">
         @Body
     </main>
-    <footer>
-        <!-- Footer content goes here. -->
+    <footer class="site-footer">
+        <div class="site-shell site-footer-inner">
+            <p>&copy; @DateTime.UtcNow.Year @Site.Author</p>
+            <p data-current-time-container hidden>
+                Your local time: <time data-current-time></time>
+            </p>
+        </div>
     </footer>
     @if (Theme!.Scripts is not null)
     {
         foreach (var script in Theme!.Scripts)
         {
-            <script src="@($"/themes/{Theme!.Slug.TrimEnd('/')}{script}")"></script>
+            <script src="@GetThemeUrl(script)"></script>
         }
     }
 </body>
 </html>
 
 </CascadingMainLayoutBase>
+
+@code {
+    private RenderFragment RenderNavigation(IReadOnlyList<NavigationNode> nodes) => @<text>
+        @foreach (var item in nodes)
+        {
+            var submenuId = $"navigation-submenu-{item.Path}";
+            <li class="navigation-item">
+                <div class="navigation-link">
+                    @if (item.Url is not null)
+                    {
+                        <a href="@item.Url">@item.Title</a>
+                    }
+                    else
+                    {
+                        <span class="navigation-label">@item.Title</span>
+                    }
+                    @if (item.Children.Count > 0)
+                    {
+                        <button class="navigation-toggle" type="button" aria-expanded="false"
+                                aria-controls="@submenuId" aria-label="@($"Toggle {item.Title} pages")" hidden>
+                            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                                <path d="m4 6 4 4 4-4"></path>
+                            </svg>
+                        </button>
+                    }
+                </div>
+                @if (item.Children.Count > 0)
+                {
+                    <ul class="navigation-children" id="@submenuId">
+                        @RenderNavigation(item.Children)
+                    </ul>
+                }
+            </li>
+        }
+    </text>;
+}

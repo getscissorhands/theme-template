@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - "build/*"
+      - "chore/*"
+      - "ci/*"
+      - "docs/*"
+      - "feat/*"
+      - "fix/*"
+      - "perf/*"
+      - "refactor/*"
+      - "revert/*"
+      - "style/*"
+      - "test/*"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build theme and sample
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Link sample theme
+        shell: pwsh
+        run: |
+          $settings = Get-Content -LiteralPath "sample/appsettings.json" -Raw | ConvertFrom-Json
+          $theme = $settings.Site.Theme
+          if ([string]::IsNullOrWhiteSpace($theme)) {
+            throw "Site:Theme must identify the sample theme."
+          }
+          $linkPath = Join-Path "sample/themes" $theme
+          if (-not (Test-Path -LiteralPath $linkPath)) {
+            New-Item -ItemType Directory -Path "sample/themes" -Force | Out-Null
+            New-Item -ItemType SymbolicLink -Path $linkPath -Target "../../src" | Out-Null
+          }
+
+      - name: Restore packages
+        run: dotnet restore
+
+      - name: Build solution
+        run: dotnet build --configuration Release --no-restore
+
+      # Uncomment after adding test projects to the solution.
+      # - name: Test solution
+      #   run: dotnet test --configuration Release --no-build --no-restore

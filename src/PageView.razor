@@ -1,13 +1,39 @@
 @inherits ScissorHands.Theme.PageViewBase
 @layout MainLayout
 
-<section class="page">
-    <header>
-        <div>
-            @Document?.Metadata.Title
-        </div>
+<section class="content-shell page">
+    <header class="content-header">
+        <h1>@Document?.Metadata.Title</h1>
+        @if (Document?.Metadata.Tags.Any() == true)
+        {
+            <ul class="tag-list" aria-label="Page tags">
+                @foreach (var tag in Document.Metadata.Tags)
+                {
+                    <li><a href="@GetTagUrl(tag)">#@tag</a></li>
+                }
+            </ul>
+        }
     </header>
-    <article>
+    <article class="prose">
         @((MarkupString)Document?.Html!)
     </article>
+    @if (PageNavigation?.Previous is not null || PageNavigation?.Next is not null)
+    {
+        <nav class="page-navigation" aria-label="Page navigation">
+            @if (PageNavigation?.Previous is { } previous)
+            {
+                <a class="page-navigation-previous" href="@previous.Url" rel="prev" tabindex="0">
+                    <span class="page-navigation-direction">Previous</span>
+                    <span>@previous.Title</span>
+                </a>
+            }
+            @if (PageNavigation?.Next is { } next)
+            {
+                <a class="page-navigation-next" href="@next.Url" rel="next" tabindex="0">
+                    <span class="page-navigation-direction">Next</span>
+                    <span>@next.Title</span>
+                </a>
+            }
+        </nav>
+    }
 </section>

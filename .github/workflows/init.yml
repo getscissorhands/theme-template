@@ -1,0 +1,62 @@
+name: Initialize template repository
+
+# GitHub has no native "created from template" event. Creating a repository
+# from a template creates its default branch, which emits this initial push.
+on:
+  push:
+
+jobs:
+  initialize:
+    if: ${{ github.event.created && github.ref_name == github.event.repository.default_branch && !github.event.repository.is_template }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Initialize project
+        shell: pwsh
+        env:
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
+        run: |
+          $projectPath = "src/ThemeTemplate.csproj"
+          $renamedProjectPath = "src/$env:REPOSITORY_NAME.csproj"
+          $solutionPath = "ThemeTemplate.slnx"
+          $renamedSolutionPath = "$env:REPOSITORY_NAME.slnx"
+          $settingsPath = "sample/appsettings.json"
+          $themeLinkPath = "sample/themes/$env:REPOSITORY_NAME"
+
+          Move-Item -LiteralPath $projectPath -Destination $renamedProjectPath
+
+          $solution = Get-Content -LiteralPath $solutionPath -Raw
+          $updatedSolution = $solution.Replace($projectPath, $renamedProjectPath)
+          if ($solution -eq $updatedSolution) {
+            throw "Project path '$projectPath' was not found in '$solutionPath'."
+          }
+          Set-Content -LiteralPath $solutionPath -Value $updatedSolution -NoNewline
+          Move-Item -LiteralPath $solutionPath -Destination $renamedSolutionPath
+
+          $settings = Get-Content -LiteralPath $settingsPath -Raw | ConvertFrom-Json
+          $settings.Site.Author = $env:REPOSITORY_OWNER
+          $settings.Site.Theme = $env:REPOSITORY_NAME
+          $settings |
+            ConvertTo-Json -Depth 100 |
+            Set-Content -LiteralPath $settingsPath
+
+          New-Item -ItemType Directory -Path "sample/themes" -Force | Out-Null
+          New-Item -ItemType SymbolicLink -Path $themeLinkPath -Target "../../src" | Out-Null
+
+      - name: Commit initialization
+        env:
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/init.yml
+          git add --all
+          git add --force "sample/themes/${REPOSITORY_NAME}"
+          git commit -m "chore: initialize template repository"
+          git push

@@ -1,39 +1,56 @@
+@using ScissorHands.Core.Urls
 @inherits ScissorHands.Theme.IndexViewBase
 @layout MainLayout
 
-<section class="home">
-    <!-- Home page content goes here. -->
-    @if (Documents?.Any() == false)
-    {
-        <p>No posts available.</p>
-    }
-    else
-    {
-        @foreach (var post in Documents!)
+<div class="home-layout">
+    <section class="home">
+        <header class="section-header">
+            <h1>Latest posts</h1>
+            @if (string.IsNullOrWhiteSpace(Site?.Description) == false)
+            {
+                <p>@Site.Description</p>
+            }
+        </header>
+        @if (Documents?.Any() != true)
         {
-            <article>
-                <div>
-                    <a href="/@post.Metadata.Slug">@post.Metadata.Title</a>
-                </div>
-                @if (string.IsNullOrWhiteSpace(post.Metadata.Description) == false)
-                {
-                    <div>
-                        <p>@post.Metadata.Description</p>
-                    </div>
-                }
-                @if (post.Metadata.Tags.Any())
-                {
-                    <ul>
-                        @foreach (var tag in post.Metadata.Tags)
-                        {
-                            <li>@tag</li>
-                        }
-                    </ul>
-                }
-            </article>
+            <p class="empty-state">No posts available.</p>
         }
-    }
-</section>
-<section class="sidebar">
-    <!-- Sidebar content goes here. -->
-</section>
+        else
+        {
+            <div class="post-list">
+                @foreach (var post in Documents)
+                {
+                    <article class="post-card">
+                        @if (post.Metadata.Published is { } published)
+                        {
+                        <time class="post-meta" datetime="@published.ToString("O")">
+                            @published.ToString("MMMM dd, yyyy")
+                        </time>
+                        }
+                        <h2 class="post-title">
+                        <a href="@GetContentUrl(post.Metadata.Slug)">@post.Metadata.Title</a>
+                        </h2>
+                        @if (string.IsNullOrWhiteSpace(post.Metadata.Description) == false)
+                        {
+                        <p>@post.Metadata.Description</p>
+                        }
+                        @if (post.Metadata.Tags.Any())
+                        {
+                        <ul class="tag-list" aria-label="Post tags">
+                            @foreach (var tag in post.Metadata.Tags)
+                            {
+                                <li><a href="@ContentUrlHelper.GetTagUrl(tag)">#@tag</a></li>
+                            }
+                        </ul>
+                        }
+                    </article>
+                }
+            </div>
+        }
+    </section>
+    <aside class="sidebar" aria-label="Site information">
+        <h2>About</h2>
+        <p>Published by @Site?.Author.</p>
+        <a class="text-link" href="tags">Browse all tags <span aria-hidden="true">&rarr;</span></a>
+    </aside>
+</div>

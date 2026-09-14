@@ -1,0 +1,28 @@
+@inherits ScissorHands.Theme.TagListViewBase
+@layout MainLayout
+
+<section class="content-shell tags">
+    <header class="content-header">
+        <h1>Tags</h1>
+        <p>Browse topics used across the published content.</p>
+    </header>
+    @if (TaggedDocuments?.Any() != true)
+    {
+        <p class="empty-state">No tags available.</p>
+    }
+    else
+    {
+        <ul class="tag-grid">
+            @foreach (var tagEntry in TaggedDocuments.OrderBy(item => item.Key))
+            {
+                var count = tagEntry.Value.Posts.Count() + tagEntry.Value.Pages.Count();
+                <li>
+                    <a class="tag-card" href="@GetTagUrl(tagEntry.Key)">
+                        <span>#@tagEntry.Key</span>
+                        <small>@count @(count == 1 ? "item" : "items")</small>
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+</section>
