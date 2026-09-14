@@ -51,24 +51,23 @@ The theme files live under [`src/`](src/):
 
 ```text
 src/
-|-- assets/
-|   |-- css/
-|   |   `-- theme.css
-|   |-- images/
-|   |   `-- logo.png
-|   `-- js/
-|       `-- theme.js
-|-- favicon.ico
-|-- theme.json
-|-- ThemeTemplate.csproj
-|-- _Imports.razor
-|-- MainLayout.razor
-|-- IndexView.razor
-|-- PostView.razor
-|-- PageView.razor
-|-- NotFoundView.razor
-|-- TagListView.razor
-`-- TagView.razor
+├── assets/
+│   ├── css/
+│   │   └── theme.css
+│   ├── images/
+│   │   └── logo.png
+│   └── js/
+│       └── theme.js
+├── favicon.ico
+├── theme.json
+├── _Imports.razor
+├── MainLayout.razor
+├── IndexView.razor
+├── PostView.razor
+├── PageView.razor
+├── NotFoundView.razor
+├── TagListView.razor
+└── TagView.razor
 ```
 
 The [`sample/`](sample/) directory contains the local preview application and example Markdown content.
