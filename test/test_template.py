@@ -352,7 +352,11 @@ class TemplateTests(unittest.TestCase):
         post = next(page for page in self.pages.values() if "<h1>Shared tag post</h1>" in page.html)
         self.assertIn(SHARED_TAG_URL, [link["href"] for link in post.links])
         self.assertIn("Hello, ScissorHands", self.page("tags/dotnet").html)
-        self.assertIn("About the sample", self.page("tags/sample").html)
+        about_link = next(
+            link for link in self.page("tags/sample").links
+            if link["href"] == "about" and link["navigation"] is None
+        )
+        self.assertEqual("About", about_link["text"].strip())
 
     def test_localized_navigation_is_not_reescaped(self):
         nav = self.localized.navigation_links("Primary navigation")

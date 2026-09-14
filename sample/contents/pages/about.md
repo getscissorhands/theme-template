@@ -1,13 +1,13 @@
 ---
-title: About the sample
-description: Learn what the sample application validates.
+title: About
+description: Explore the ScissorHands.NET theme template through sample articles, page navigation, and shared topics.
 slug: about
 show_in_navigation: true
 tags:
   - sample
 ---
 
-# About the sample
+# About this template
 
 This sample uses ScissorHands packages from NuGet.org and the linked theme
 templates, so theme changes can be previewed locally.
