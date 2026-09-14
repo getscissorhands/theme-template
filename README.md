@@ -169,7 +169,7 @@ Content and tag links use the package's shared `GetContentUrl` and `GetTagUrl` h
 
 ### CSS, JavaScripts & Favicons
 
-- The included `theme.css` provides a compact reset and a responsive, accessible editorial starter with light and dark color schemes.
+- The included `theme.css` provides a compact reset and a responsive, accessible editorial starter with cool blue-gray and deep slate backgrounds to distinguish it from the built-in theme's warmer palette.
 - The included `theme.js` progressively enhances hierarchical navigation and the footer's localized current time. Without JavaScript, navigation stays expanded and only the optional clock line stays hidden.
 - Both files are intentionally framework-free and can be replaced or removed as the theme evolves.
 - It's recommended to follow the default naming convention like `theme.css` and `theme.js`.

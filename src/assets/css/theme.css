@@ -1,6 +1,6 @@
 :root {
   color-scheme: light;
-  --color-background: #f6f5f1;
+  --color-background: #f0f4f8;
   --color-surface: #ffffff;
   --color-text: #22252a;
   --color-muted: #656b76;
@@ -643,7 +643,7 @@ td {
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --color-background: #17191d;
+    --color-background: #151e2b;
     --color-surface: #202329;
     --color-text: #eef0f4;
     --color-muted: #abb1bd;
