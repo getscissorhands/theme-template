@@ -6,18 +6,18 @@ For an overview of the example content, see the [theme guide](contents/pages/the
 
 ## Running the Sample
 
-Run from this directory. The launch profile enables preview mode:
+Run from this directory and select preview mode explicitly:
 
 ```bash
 dotnet run -- --preview
 ```
 
-The launch profile also starts preview mode automatically when run from an IDE.
+When running from an IDE, pass `--preview` as an application argument.
 
 Generate static files without starting the preview server:
 
 ```bash
-dotnet run --no-launch-profile -- --build
+dotnet run -- --build
 ```
 
 Generated preview and build outputs are written to `preview/` and `dist/` respectively.

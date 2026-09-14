@@ -16,7 +16,7 @@ directory.
 ## Preview while editing
 
 ```shell
-dotnet run --no-launch-profile -- --preview
+dotnet run -- --preview
 ```
 
 Preview mode serves the generated site locally. After changing Razor or C#
@@ -25,7 +25,7 @@ sources, restart with a build so the running application uses the new components
 ## Generate static output
 
 ```shell
-dotnet run --no-launch-profile -- --build
+dotnet run -- --build
 ```
 
 The build command writes the static site to `dist`. Review that output before
