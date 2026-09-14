@@ -1,3 +1,51 @@
+const themeToggle = document.querySelector("[data-theme-toggle]");
+
+if (themeToggle) {
+  const root = document.documentElement;
+  const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
+  let preference = root.dataset.theme ?? null;
+
+  const updateTheme = () => {
+    const theme = preference ?? (systemTheme.matches ? "dark" : "light");
+    const label =
+      theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+    root.dataset.theme = theme;
+    themeToggle.setAttribute("aria-label", label);
+    themeToggle.title = label;
+  };
+
+  themeToggle.addEventListener("click", () => {
+    preference = root.dataset.theme === "dark" ? "light" : "dark";
+    updateTheme();
+    try {
+      localStorage.setItem("scissorhands-theme-mode", preference);
+    } catch (error) {
+      if (
+        !(error instanceof DOMException) ||
+        !["SecurityError", "QuotaExceededError"].includes(error.name)
+      )
+        throw error;
+      console.warn(
+        "Colour preference could not be saved; it applies to this page only.",
+        error,
+      );
+    }
+  });
+
+  systemTheme.addEventListener("change", updateTheme);
+  window.addEventListener("storage", (event) => {
+    if (event.key !== "scissorhands-theme-mode" && event.key !== null) return;
+    preference =
+      event.newValue === "light" || event.newValue === "dark"
+        ? event.newValue
+        : null;
+    updateTheme();
+  });
+
+  updateTheme();
+  themeToggle.hidden = false;
+}
+
 document.querySelectorAll(".site-navigation").forEach((navigation) => {
   const entries = [...navigation.querySelectorAll(".navigation-toggle")].map(
     (button) => {
@@ -85,8 +133,8 @@ document.querySelectorAll(".site-navigation").forEach((navigation) => {
 
   document.addEventListener("click", (event) => {
     pointerDown = false;
-    if (!navigation.contains(event.target)) {
-      for (const entry of entries) close(entry);
+    for (const entry of entries) {
+      if (!entry.item.contains(event.target)) close(entry);
     }
   });
 });

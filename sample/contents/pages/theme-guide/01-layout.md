@@ -27,7 +27,9 @@ card.
 | `--gutter` | Space between content and the viewport |
 
 Change these tokens in `src/assets/css/theme.css` to experiment with the design.
-The dark-mode media query overrides the color tokens separately.
+Each `light-dark(light, dark)` pair defines both color variants. The system
+preference selects the mode until a visitor chooses one with the navigation's
+sun/moon button.
 
 ## Content should drive the layout
 

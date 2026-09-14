@@ -25,6 +25,19 @@
     <title>@PageTitle</title>
     <meta name="title" content="@PageTitle" />
     <meta name="description" content="@PageDescription" />
+    <script>
+        (() => {
+            try {
+                const preference = localStorage.getItem("scissorhands-theme-mode");
+                if (preference === "light" || preference === "dark") {
+                    document.documentElement.dataset.theme = preference;
+                }
+            } catch (error) {
+                if (!(error instanceof DOMException) || error.name !== "SecurityError") throw error;
+                console.warn("Colour preference storage is unavailable; using the system preference.", error);
+            }
+        })();
+    </script>
     @if (Theme!.Stylesheets is not null)
     {
         foreach (var css in Theme!.Stylesheets)
@@ -43,6 +56,18 @@
                     <li><a href=".">Home</a></li>
                     @RenderNavigation(NavigationTree)
                     <li><a href="tags">Tags</a></li>
+                    <li>
+                        <button class="theme-toggle" type="button" data-theme-toggle
+                                aria-label="Switch to dark mode" title="Switch to dark mode" hidden>
+                            <svg class="theme-icon-dark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"></path>
+                            </svg>
+                            <svg class="theme-icon-light" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"></path>
+                            </svg>
+                        </button>
+                    </li>
                 </ul>
             </nav>
         </div>

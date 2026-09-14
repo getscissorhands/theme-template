@@ -170,7 +170,8 @@ Content and tag links use the package's shared `GetContentUrl` and `GetTagUrl` h
 ### CSS, JavaScripts & Favicons
 
 - The included `theme.css` provides a compact reset and a responsive, accessible editorial starter with cool blue-gray and deep slate backgrounds to distinguish it from the built-in theme's warmer palette.
-- The included `theme.js` progressively enhances hierarchical navigation and the footer's localized current time. Without JavaScript, navigation stays expanded and only the optional clock line stays hidden.
+- The navigation's sun/moon button switches between light and dark mode. The theme follows the system preference until a visitor chooses a mode, then remembers that choice in browser storage. Saved preferences are applied before styles load to avoid a flash of the wrong background.
+- The included `theme.js` progressively enhances the colour-mode toggle, hierarchical navigation, and the footer's localized current time. Without JavaScript, colours follow the system preference, navigation stays expanded, and the toggle and optional clock line stay hidden.
 - Both files are intentionally framework-free and can be replaced or removed as the theme evolves.
 - It's recommended to follow the default naming convention like `theme.css` and `theme.js`.
 - If you prefer multiple CSS and JavaScript files, feel free to do so.
