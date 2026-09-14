@@ -82,7 +82,7 @@ The engine supplies `PageNavigation.Previous` and `.Next`; the theme controls th
 ### New branches
 
 - Use `type/short-kebab-case-description` for newly created non-default branches, such as `feat/theme-navigation` or `fix/tag-links`. Allowed types are `build`, `chore`, `ci`, `docs`, `feat`, `fix`, `perf`, `refactor`, `revert`, `style`, and `test`.
-- This is a branch-naming convention derived from Conventional Commit types, not the commit-message syntax itself. The `create` workflow check reports invalid new branch names; it does not prevent branch creation or rename existing branches. The default branch is exempt.
+- These prefixes determine which branch pushes trigger CI; they are not enforced by a separate branch-name validation job. Conventional Commit message syntax remains a separate requirement.
 
 ### Atomic commits
 

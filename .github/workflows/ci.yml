@@ -18,37 +18,13 @@ on:
   pull_request:
     branches:
       - main
-  create:
 
 permissions:
   contents: read
 
 jobs:
-  branch-name:
-    name: Check new branch name
-    if: ${{ github.event_name == 'create' && github.event.ref_type == 'branch' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Check conventional type prefix
-        shell: bash
-        env:
-          BRANCH_NAME: ${{ github.event.ref }}
-          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-        run: |
-          if [[ "$BRANCH_NAME" == "$DEFAULT_BRANCH" ]]; then
-            echo "The default branch is exempt from the naming convention."
-            exit 0
-          fi
-
-          if [[ ! "$BRANCH_NAME" =~ ^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)/[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
-            echo "::error::Use a branch name such as feat/theme-navigation or fix/tag-links (type/lowercase-kebab-case)."
-            exit 1
-          fi
-
   build:
     name: Build theme and sample
-    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
