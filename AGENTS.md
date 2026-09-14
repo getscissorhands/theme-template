@@ -68,6 +68,7 @@ The engine supplies `PageNavigation.Previous` and `.Next`; the theme controls th
 ## Validation and change boundaries
 
 - Build after Razor or package changes. Run the sample after changes to rendering, navigation, or assets, and inspect actual output rather than only checking that files exist.
+- [CI](.github/workflows/ci.yml) restores packages, builds the Release solution, and generates the sample site for pushes and pull requests targeting `main`. Keep these checks compatible with the renamed project and solution in generated repositories.
 - Check posts and pages, both tag views, the 404 view, nested navigation, and previous/next links as relevant. For UI changes, exercise mobile/desktop widths, light/dark modes, keyboard interaction, and the no-JavaScript fallback.
 - Check URL behavior with a subpath base URL where relevant. Setting `Site.BaseUrl` does not itself mount the preview server beneath that path.
 - Do not add Python/Node test harnesses, browser dependencies, or asset build tooling to the starter solely for validation. Use local/session tooling when needed unless repository test infrastructure is explicitly requested.
@@ -77,6 +78,11 @@ The engine supplies `PageNavigation.Previous` and `.Next`; the theme controls th
 - Report meaningful behavior changes and any validation limitations accurately. Keep this guide durable; do not add session history, temporary plans, or copied engine requirement tables.
 
 ## Commit and pull request policy
+
+### New branches
+
+- Use `type/short-kebab-case-description` for newly created non-default branches, such as `feat/theme-navigation` or `fix/tag-links`. Allowed types are `build`, `chore`, `ci`, `docs`, `feat`, `fix`, `perf`, `refactor`, `revert`, `style`, and `test`.
+- This is a branch-naming convention derived from Conventional Commit types, not the commit-message syntax itself. The `create` workflow check reports invalid new branch names; it does not prevent branch creation or rename existing branches. The default branch is exempt.
 
 ### Atomic commits
 
