@@ -80,7 +80,8 @@ Discovery matches the normalized suffix of the theme component namespace to the 
 
 - This is the overall HTML layout structure.
 - It calls both UI components and plugin components.
-- It renders the engine's `NavigationTree` between Home and Tags, including nested pages and non-clickable groups. Nested navigation remains visible without JavaScript.
+- It renders the engine's `NavigationTree` between Home and Tags, including nested pages and non-clickable groups. With JavaScript, arrow buttons open dropdowns on desktop and expandable sections on mobile. Parent-page links remain independent of their toggles.
+- Enter or Space toggles a submenu, Tab follows its links, and Escape closes the current branch and returns focus to its toggle. Clicking outside or moving focus outside a branch closes it. Without JavaScript, the buttons stay hidden and the nested links remain visible.
 - It forwards `PageNavigation` and all four tag parameters through `CascadingMainLayoutBase` so child views receive their data.
 - Keep internal links and theme asset URLs base-relative (for example, `themes/...` rather than `/themes/...`) so the `<base href="@Site.BaseUrl">` element also works when `Site:BaseUrl` is a subpath.
 - To change the way of displaying the `@PageTitle` value, override the `CalculatePageTitle()` method:
@@ -169,7 +170,7 @@ Content and tag links use the package's shared `GetContentUrl` and `GetTagUrl` h
 ### CSS, JavaScripts & Favicons
 
 - The included `theme.css` provides a compact reset and a responsive, accessible editorial starter with light and dark color schemes.
-- The included `theme.js` progressively enhances the footer with the visitor's localized current time. The footer stays hidden when JavaScript is unavailable.
+- The included `theme.js` progressively enhances hierarchical navigation and the footer's localized current time. Without JavaScript, navigation stays expanded and only the optional clock line stays hidden.
 - Both files are intentionally framework-free and can be replaced or removed as the theme evolves.
 - It's recommended to follow the default naming convention like `theme.css` and `theme.js`.
 - If you prefer multiple CSS and JavaScript files, feel free to do so.
@@ -238,4 +239,6 @@ The solution uses centrally managed `1.*-*` package versions in `Directory.Packa
 
 ## Validating Package Updates
 
-Run `python -m unittest discover -s test -v` with Python 3 and the .NET 10 SDK installed. The dependency-free test harness builds an isolated copy and generates fixture pages with the currently resolved packages. It checks navigation across all views, previous/next links, hidden pages, nested routes, tag data, and localized/base-relative URLs without modifying a running preview.
+Run `dotnet build` from the repository root to check compatibility with the restored packages. Then run `dotnet run -- --preview` from `sample` to inspect the theme locally.
+
+Check the home page, posts, pages, tags, and previous/next links. Try the hierarchical navigation with a mouse, keyboard, and a mobile viewport; links should remain available when JavaScript is disabled. The starter does not require Python, Node.js, or a browser testing framework.

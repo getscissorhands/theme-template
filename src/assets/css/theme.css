@@ -200,6 +200,7 @@ td {
 }
 
 .site-navigation {
+  position: relative;
   min-width: 0;
   max-width: 100%;
 }
@@ -230,6 +231,53 @@ td {
   border-inline-start: 1px solid var(--color-border);
 }
 
+.navigation-link {
+  display: flex;
+  align-items: center;
+}
+
+.navigation-link > a,
+.navigation-label {
+  min-width: 0;
+}
+
+.navigation-toggle {
+  display: inline-flex;
+  flex: 0 0 2.75rem;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-small);
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.navigation-toggle[hidden],
+.navigation-children[hidden] {
+  display: none;
+}
+
+.navigation-toggle svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.navigation-toggle[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.navigation-toggle:focus-visible {
+  outline: 0.2rem solid var(--color-text);
+  outline-offset: 0.2rem;
+}
+
 .site-navigation a,
 .navigation-label {
   min-height: 2.75rem;
@@ -243,7 +291,8 @@ td {
   text-decoration: none;
 }
 
-.site-navigation a:hover {
+.site-navigation a:hover,
+.navigation-toggle:hover {
   background: var(--color-accent-soft);
   color: var(--color-accent-strong);
 }
@@ -558,6 +607,33 @@ td {
 }
 
 @media (min-width: 52rem) {
+  .site-navigation[data-navigation-enhanced]
+    > .navigation-list
+    > .navigation-item
+    > .navigation-children {
+    position: absolute;
+    z-index: 5;
+    inset-inline-end: 0;
+    width: min(22rem, calc(100vw - (2 * var(--gutter))));
+    max-height: 65vh;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-medium);
+    background: var(--color-surface);
+  }
+
+  .site-navigation[data-navigation-enhanced]
+    .navigation-children
+    .navigation-link
+    > a,
+  .site-navigation[data-navigation-enhanced]
+    .navigation-children
+    .navigation-label {
+    flex: 1;
+  }
+
   .home-layout {
     grid-template-columns: minmax(0, var(--content-width)) minmax(12rem, 1fr);
     align-items: start;

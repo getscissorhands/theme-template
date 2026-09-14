@@ -30,8 +30,10 @@ There is no `theme-guide/recipes/index.md` in this sample. The
 [Writing content page](theme-guide/recipes/content) has a nested slug, so the
 engine creates a non-clickable **Recipes** group to hold it in the header.
 
-The theme renders the hierarchy as nested lists. The links stay visible with
-JavaScript disabled.
+The theme renders the hierarchy as nested lists. Use the arrow next to Theme
+guide to open its dropdown, then expand Recipes to reach Writing content. On
+mobile, those sections expand within the header instead of floating over the
+page. The links stay visible with JavaScript disabled.
 
 ## More than one way to find a page
 
