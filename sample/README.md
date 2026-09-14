@@ -1,18 +1,14 @@
-# ScissorHands.NET Sample
+# Theme preview
 
 This project provides an end-to-end preview using the NuGet.org engine packages and the theme linked at `themes/theme-template` to `../../src`.
 
-For an overview of the example content, see the [theme guide](contents/pages/theme-guide/index.md).
+## Running the preview
 
-## Running the Sample
-
-Run from this directory and select preview mode explicitly:
+Run from this directory:
 
 ```bash
 dotnet run -- --preview
 ```
-
-When running from an IDE, pass `--preview` as an application argument.
 
 Generate static files without starting the preview server:
 
