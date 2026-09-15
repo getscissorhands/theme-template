@@ -68,6 +68,22 @@ Stop the preview before rebuilding. To generate static output instead, run
 `dotnet run -- --build` from `sample`. Documentation-only changes do not require
 a .NET build.
 
+## Releases
+
+The [build and release workflow](.github/workflows/main.yaml) creates a GitHub
+release whenever a new `v*` tag is pushed, after the Release solution build
+succeeds. Use `v` followed by a [SemVer 2.0.0](https://semver.org/) version, such
+as `v1.2.3` or `v1.2.3-preview.1`. The workflow extracts the version from the tag
+without enforcing full SemVer syntax or setting GitHub's prerelease flag.
+Version suffixes and build metadata such as `v1.2.3+build.42` are preserved.
+
+Releases use the pushed tag and automatically generated release notes, with
+GitHub's standard source archives. The workflow does not publish NuGet packages
+or require the tag version to match `src/theme.json`.
+
+Branch pushes, updates to existing tags, pull requests, and manual workflow runs
+only build the solution and do not create releases.
+
 ## Pull Request Process
 
 - Keep each commit a complete logical change that can be reviewed and reverted
