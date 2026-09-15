@@ -15,8 +15,7 @@ not reconstruct earlier release history.
 - Weekly Dependabot checks for GitHub Actions and NuGet.
 - Code ownership and GitHub Sponsors configuration.
 - GitHub releases with generated notes for new `v*` tag pushes, gated on a
-  successful Release solution build. Release versions are extracted from tags,
-  and prerelease versions are marked as GitHub prereleases.
+  successful Release solution build. Release versions are extracted from tags.
 
 ### Changed
 

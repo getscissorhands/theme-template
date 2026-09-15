@@ -75,13 +75,10 @@ jobs:
         shell: pwsh
         run: |
           $version = $env:GITHUB_REF -replace '^refs/tags/v', ''
-          $isPrerelease = $version.Split('+')[0].Contains('-')
           "value=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-          "prerelease=$($isPrerelease.ToString().ToLowerInvariant())" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Create release with generated notes
         uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ steps.version.outputs.value }}
-          prerelease: ${{ steps.version.outputs.prerelease == 'true' }}
           generate_release_notes: true
