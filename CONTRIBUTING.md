@@ -71,13 +71,14 @@ a .NET build.
 ## Releases
 
 The [build and release workflow](.github/workflows/main.yaml) creates a GitHub
-release whenever a new tag is pushed, after the Release solution build succeeds.
-Tags must use `v` followed by a valid [SemVer 2.0.0](https://semver.org/) version,
-such as `v1.2.3` or `v1.2.3-preview.1`. Invalid tags fail the release job before
-a release is created. Versions with a prerelease suffix are marked as GitHub
-prereleases; build metadata such as `v1.2.3+build.42` is also supported.
+release whenever a new `v*` tag is pushed, after the Release solution build
+succeeds. Use `v` followed by a [SemVer 2.0.0](https://semver.org/) version, such
+as `v1.2.3` or `v1.2.3-preview.1`. The workflow extracts the version from the tag
+without enforcing full SemVer syntax. Versions with a prerelease suffix are
+marked as GitHub prereleases; build metadata such as `v1.2.3+build.42` is also
+supported.
 
-Releases use the validated tag and automatically generated release notes, with
+Releases use the pushed tag and automatically generated release notes, with
 GitHub's standard source archives. The workflow does not publish NuGet packages
 or require the tag version to match `src/theme.json`.
 

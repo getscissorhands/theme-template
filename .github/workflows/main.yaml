@@ -16,7 +16,7 @@ on:
       - "style/*"
       - "test/*"
     tags:
-      - "**"
+      - "v*"
   pull_request:
     branches:
       - main
@@ -63,7 +63,7 @@ jobs:
 
   release:
     name: Create GitHub release
-    if: ${{ github.event_name == 'push' && github.event.created && startsWith(github.ref, 'refs/tags/') }}
+    if: ${{ github.event_name == 'push' && github.event.created && startsWith(github.ref, 'refs/tags/v') }}
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -73,23 +73,15 @@ jobs:
       - name: Check release version
         id: version
         shell: pwsh
-        env:
-          TAG_NAME: ${{ github.ref_name }}
         run: |
-          $numeric = '(0|[1-9][0-9]*)'
-          $prereleaseIdentifier = '(0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*)'
-          $buildIdentifier = '[0-9a-zA-Z-]+'
-          $pattern = "\Av(?<version>$numeric\.$numeric\.$numeric(?:-(?<prerelease>$prereleaseIdentifier(?:\.$prereleaseIdentifier)*))?(?:\+$buildIdentifier(?:\.$buildIdentifier)*)?)\z"
-          $match = [regex]::Match($env:TAG_NAME, $pattern)
-          if (-not $match.Success) {
-            throw "Tag '$env:TAG_NAME' must be a v-prefixed SemVer version, such as v1.2.3 or v1.2.3-preview.1."
-          }
-          "version=$($match.Groups['version'].Value)" >> $env:GITHUB_OUTPUT
-          "prerelease=$($match.Groups['prerelease'].Success.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT
+          $version = $env:GITHUB_REF -replace '^refs/tags/v', ''
+          $isPrerelease = $version.Split('+')[0].Contains('-')
+          "value=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "prerelease=$($isPrerelease.ToString().ToLowerInvariant())" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Create release with generated notes
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: v${{ steps.version.outputs.version }}
+          tag_name: v${{ steps.version.outputs.value }}
           prerelease: ${{ steps.version.outputs.prerelease == 'true' }}
           generate_release_notes: true
