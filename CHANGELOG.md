@@ -14,6 +14,8 @@ not reconstruct earlier release history.
 - Git attributes for text normalization, script line endings, and binary files.
 - Weekly Dependabot checks for GitHub Actions and NuGet.
 - Code ownership and GitHub Sponsors configuration.
+- GitHub releases with generated notes for new tag pushes, gated on a successful
+  Release solution build.
 
 ### Changed
 
@@ -21,3 +23,5 @@ not reconstruct earlier release history.
   theme starter.
 - Updated workflow actions to `actions/checkout@v7` and
   `actions/setup-dotnet@v6`.
+- Renamed the CI workflow from `.github/workflows/ci.yml` to
+  `.github/workflows/main.yaml`.

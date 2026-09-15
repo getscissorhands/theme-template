@@ -68,6 +68,17 @@ Stop the preview before rebuilding. To generate static output instead, run
 `dotnet run -- --build` from `sample`. Documentation-only changes do not require
 a .NET build.
 
+## Releases
+
+The [build and release workflow](.github/workflows/main.yaml) creates a GitHub
+release whenever a new tag is pushed, after the Release solution build succeeds.
+All tag names are supported. Releases use the pushed tag and automatically
+generated release notes, with GitHub's standard source archives; the workflow
+does not publish NuGet packages.
+
+Branch pushes, updates to existing tags, pull requests, and manual workflow runs
+only build the solution and do not create releases.
+
 ## Pull Request Process
 
 - Keep each commit a complete logical change that can be reviewed and reverted
