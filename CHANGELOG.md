@@ -15,7 +15,8 @@ not reconstruct earlier release history.
 - Weekly Dependabot checks for GitHub Actions and NuGet.
 - Code ownership and GitHub Sponsors configuration.
 - GitHub releases with generated notes for new tag pushes, gated on a successful
-  Release solution build.
+  Release solution build and valid `v`-prefixed SemVer tag. Prerelease versions
+  are marked as GitHub prereleases.
 
 ### Changed
 
