@@ -27,17 +27,35 @@ jobs:
           $solutionPath = "ThemeTemplate.slnx"
           $renamedSolutionPath = "$env:REPOSITORY_NAME.slnx"
           $settingsPath = "sample/appsettings.json"
+          $manifestPath = "src/theme.json"
+          $importsPath = "src/_Imports.razor"
           $themeLinkPath = "sample/themes/$env:REPOSITORY_NAME"
 
-          Move-Item -LiteralPath $projectPath -Destination $renamedProjectPath
+          if ($projectPath -cne $renamedProjectPath) {
+            Move-Item -LiteralPath $projectPath -Destination $renamedProjectPath
+          }
 
           $solution = Get-Content -LiteralPath $solutionPath -Raw
           $updatedSolution = $solution.Replace($projectPath, $renamedProjectPath)
-          if ($solution -eq $updatedSolution) {
+          if (!$solution.Contains($projectPath)) {
             throw "Project path '$projectPath' was not found in '$solutionPath'."
           }
           Set-Content -LiteralPath $solutionPath -Value $updatedSolution -NoNewline
-          Move-Item -LiteralPath $solutionPath -Destination $renamedSolutionPath
+          if ($solutionPath -cne $renamedSolutionPath) {
+            Move-Item -LiteralPath $solutionPath -Destination $renamedSolutionPath
+          }
+
+          $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+          $manifest.name = $env:REPOSITORY_NAME
+          $manifest.slug = $env:REPOSITORY_NAME
+          $manifest |
+            ConvertTo-Json -Depth 100 |
+            Set-Content -LiteralPath $manifestPath
+
+          $namespaceSuffix = "Theme_" + ($env:REPOSITORY_NAME -replace '[^A-Za-z0-9_]', '_')
+          $imports = Get-Content -LiteralPath $importsPath -Raw
+          $imports = $imports.Replace('@namespace ScissorHands.Theme.Template', "@namespace ScissorHands.Theme.$namespaceSuffix")
+          Set-Content -LiteralPath $importsPath -Value $imports -NoNewline
 
           $settings = Get-Content -LiteralPath $settingsPath -Raw | ConvertFrom-Json
           $settings.Site.Author = $env:REPOSITORY_OWNER

@@ -24,7 +24,7 @@ It is still reachable through links and the [theme tag](tags/theme), where it ap
 | `pages/theme-guide/01-layout.md` | Source ordering with a stable slug |
 | `pages/theme-guide/02-recipes/01-content.md` | A missing-parent navigation group |
 | `posts/markdown-showcase.md` | A longer article with varied Markdown |
-| `pages/draft-example.md` | A source excluded from generated output |
+| `pages/draft-example.md` | A preview-only draft, excluded from production output |
 
 Return to the [theme guide](theme-guide) or read more in the
 [upstream engine sample](https://github.com/getscissorhands/ScissorHands.NET/tree/vnext/samples/ScissorHands.Sample).

@@ -17,7 +17,7 @@ The sample application uses the published engine packages and a local copy or li
 dotnet run -- --preview
 ```
 
-Preview mode serves the generated site locally. After changing Razor or C# sources, restart with a build so the running application uses the new components.
+Preview mode serves the generated site locally, including drafts and future-scheduled posts with visible status badges. Never deploy `preview/`. After changing Razor or C# sources, stop the preview and restart with a build so the running application uses the new components.
 
 ## Generate static output
 
@@ -29,12 +29,14 @@ The build command writes the static site to `dist`. Review that output before de
 
 | Mode | Output | Use it for |
 | --- | --- | --- |
-| Preview | `preview/` | Local content and theme review |
-| Build | `dist/` | Files to publish |
+| Preview | `preview/` | Local review only; includes unpublished content |
+| Build | `dist/` | Eligible published content only; no status badges |
 
 ## Check the deployment base
 
-For a site hosted at `https://example.com/project/`, configure `Site.BaseUrl` as `/project/`. Serve the generated files at that path on the destination host. Changing the base URL does not itself mount the local preview server under that prefix.
+For a site hosted at `https://example.com/project/`, configure `Site.BaseUrl` as `/project/`. The preview server mounts output at that prefix and redirects `/` to `/project/`. Configure the production host to mount generated files at the same path.
+
+For a local subpath preview, follow the commands in the sample README. `Site.TimeZone` controls the publication instant for dates without offsets; the sample uses UTC. Generation captures one time snapshot. Rebuild at or after the publication time to publish scheduled content; there is no automatic publishing timer.
 
 Before publishing, inspect a post, a page, the [tag index](tags), and the not-found output. Follow an image URL and a previous/next link as well as the header navigation.
 

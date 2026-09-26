@@ -44,6 +44,7 @@ Preserve parameter forwarding from `MainLayout` into `CascadingMainLayoutBase`:
 - General context: `Documents`, `Document`, `Plugins`, `Theme`, and `Site`.
 - Tag context: `TaggedDocuments`, `Tag`, `TaggedPosts`, and `TaggedPages`.
 - Adjacent-page context: `PageNavigation`.
+- Locale context: `LocaleContext`, preserving requested locale separately from content language.
 
 `NavigationTree` and `NavigationPages` are layout-only inputs, not automatic cascading values. Render the engine-prepared hierarchy and reading order rather than rebuilding them in the theme. A navigation node with a null `Url` is a non-clickable group.
 
@@ -70,7 +71,7 @@ The engine supplies `PageNavigation.Previous` and `.Next`; the theme controls th
 - Build after Razor or package changes. Run the sample after changes to rendering, navigation, or assets, and inspect actual output rather than only checking that files exist.
 - [Build and release](.github/workflows/main.yaml) restores packages and builds the Release solution for pushes to `main`, conventional type-prefixed branches, and `v*` tags, pull requests targeting `main`, and manual `workflow_dispatch` runs. New `v*` tag pushes create a GitHub release with generated notes only after the build succeeds. The release job extracts the version from the tag without enforcing full SemVer syntax or setting a prerelease flag. Branch pushes, tag updates, pull requests, and manual runs do not create releases. The test step is commented out until test projects are added; sample generation remains local validation. Keep these checks compatible with the renamed project and solution in generated repositories.
 - Check posts and pages, both tag views, the 404 view, nested navigation, and previous/next links as relevant. For UI changes, exercise mobile/desktop widths, light/dark modes, keyboard interaction, and the no-JavaScript fallback.
-- Check URL behavior with a subpath base URL where relevant. Setting `Site.BaseUrl` does not itself mount the preview server beneath that path.
+- Check URL behavior with a subpath base URL where relevant. Preview mounts output at `Site.BaseUrl` and redirects domain-root `/` to that prefix; production hosts must configure their own mount.
 - Do not add Python/Node test harnesses, browser dependencies, or asset build tooling to the starter solely for validation. Use local/session tooling when needed unless repository test infrastructure is explicitly requested.
 - Documentation-only edits do not require a .NET build.
 - Keep package versions centralized and project `PackageReference` entries versionless. Preserve the existing major-version floating policy unless asked to change it.

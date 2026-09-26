@@ -39,7 +39,7 @@ The [theme topic](tags/theme) combines dated posts with guide pages. The [refere
 
 ### Drafts are different
 
-`draft: true` excludes a document from generated content, rather than merely hiding its navigation entry. The sample includes a draft source file for comparison; it is not linked from a published page.
+`draft: true` excludes a document from production builds, rather than merely hiding its navigation entry. Preview includes drafts with required badges on articles and listing entries. Future-scheduled posts are also preview-only, and translations inherit a primary document's withheld status. Never deploy `preview/`.
 
 ## Write portable links
 

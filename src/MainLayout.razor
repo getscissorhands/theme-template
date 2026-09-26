@@ -8,12 +8,13 @@
                          TaggedPages="@TaggedPages"
                          Document="@Document"
                          PageNavigation="@PageNavigation"
+                         LocaleContext="@LocaleContext"
                          Plugins="@Plugins"
                          Theme="@Theme"
                          Site="@Site">
 
 <!DOCTYPE html>
-<html lang="@PageLocale">
+<html lang="@(string.IsNullOrWhiteSpace(PageLocale) ? null : PageLocale)">
 <head>
     <base href="@Site!.BaseUrl" />
 
@@ -25,6 +26,7 @@
     <title>@PageTitle</title>
     <meta name="title" content="@PageTitle" />
     <meta name="description" content="@PageDescription" />
+    <LocalizationMetadata />
     <script>
         (() => {
             try {
@@ -50,12 +52,15 @@
     <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
         <div class="site-shell site-header-inner">
-            <a class="site-title" href=".">@Site!.Title</a>
+            <a class="site-title" href="@GetHomeUrl()">@Site!.Title</a>
             <nav class="site-navigation" aria-label="Primary navigation">
                 <ul class="navigation-list">
-                    <li><a href=".">Home</a></li>
+                    <li><a href="@GetHomeUrl()">Home</a></li>
                     @RenderNavigation(NavigationTree)
-                    <li><a href="tags">Tags</a></li>
+                    @if (GetTagIndexUrl() is { } tagIndexUrl)
+                    {
+                        <li><a href="@tagIndexUrl">Tags</a></li>
+                    }
                     <li>
                         <button class="theme-toggle" type="button" data-theme-toggle
                                 aria-label="Switch to dark mode" title="Switch to dark mode" hidden>
@@ -72,6 +77,9 @@
             </nav>
         </div>
     </header>
+    <div class="site-shell">
+        <LanguageSwitcher />
+    </div>
     <main id="main-content" class="site-shell site-main">
         @Body
     </main>

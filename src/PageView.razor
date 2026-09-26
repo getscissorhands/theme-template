@@ -2,6 +2,9 @@
 @layout MainLayout
 
 <section class="content-shell page">
+    <LocalizationFallbackBanner />
+    <article lang="@LocaleContext?.ContentLocale" @attributes="PublicationBadgeBase.GetRegionAttributes(Document, PublicationBadgePlacement.Detail)">
+    <PublicationBadges />
     <header class="content-header">
         <h1>@Document?.Metadata.Title</h1>
         @if (Document?.Metadata.Tags.Any() == true)
@@ -14,8 +17,9 @@
             </ul>
         }
     </header>
-    <article class="prose">
+    <div class="prose">
         @((MarkupString)Document?.Html!)
+    </div>
     </article>
     @if (PageNavigation?.Previous is not null || PageNavigation?.Next is not null)
     {

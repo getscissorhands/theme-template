@@ -1,0 +1,16 @@
+@inherits LanguageSwitcherBase
+
+@if (Links.Count > 1)
+{
+    <nav class="language-switcher @Class" aria-label="@AriaLabel">
+        <ul>
+            @foreach (var link in Links)
+            {
+                <li>
+                    <a href="@link.Url" lang="@link.Locale" hreflang="@link.Locale"
+                       aria-current="@(link.IsCurrent ? "true" : null)">@link.Label</a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
