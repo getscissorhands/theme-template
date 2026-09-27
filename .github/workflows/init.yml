@@ -21,7 +21,16 @@ jobs:
         run: |
           $themeSlug = ($env:REPOSITORY_NAME -replace '[_.]', '-').ToLowerInvariant()
 
-          $reservedSlugs = @("default", "scissorhands-core", "scissorhands-plugin", "scissorhands-theme", "scissorhands-web")
+          $reservedSlugs = @(
+            "default",
+            "plugins",
+            "plugin-template",
+            "theme-template",
+            "scissorhands-core",
+            "scissorhands-plugin",
+            "scissorhands-theme",
+            "scissorhands-web"
+          )
           if ($themeSlug -in $reservedSlugs) {
             throw "Theme slug '$themeSlug' from repository '$env:REPOSITORY_NAME' is reserved. Choose a different repository name."
           }
