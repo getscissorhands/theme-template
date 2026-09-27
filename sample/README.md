@@ -34,6 +34,11 @@ Generated preview and build outputs are written to `preview/` and `dist/` respec
 
 **Never deploy `preview/`.** It deliberately includes unpublished content. Deploy only production `dist/`, with deletions enabled so withdrawn pages do not remain on the host. Keep the engine's output ownership ledger during in-place generation; clean old output once when upgrading from an engine without that ledger.
 
+The header links to `/sample-content/` in preview. This draft catalog links to every
+sample post and page, including nested pages, Korean translations and fallbacks,
+the shared 404, and draft/future-scheduled examples. It is excluded from `dist/`
+so production never links to unpublished content.
+
 The launch profile supplies `http://localhost:5000`, not a mode. Open that URL after starting preview. Markdown/theme asset edits trigger regeneration; refresh the browser afterward. Stop preview before rebuilding Razor/C# components, then restart it.
 
 ## Localization migration
@@ -82,6 +87,7 @@ Run both modes at `/` and `/docs/` after changing views, messages, or assets. No
 | Route or check | Expected result |
 | --- | --- |
 | `/`, `/ko-kr/`, `/tags/`, `/ko-kr/tags/` | Primary stays unprefixed; locale-specific Home, Tags, article and tag links work; no document canonical/alternates |
+| `/sample-content/`, `/ko-kr/sample-content/` | Preview-only catalog links to every post and page in both locales; Korean route shows a fallback notice |
 | `/about/`, `/ko-kr/about/` | Real translations; self-canonical with reciprocal English/Korean alternates; no fallback notice |
 | `/ko-kr/theme-guide/` | One Korean notice, English article `lang`, primary canonical, no Korean SEO alternate; navigation and Previous/Next remain Korean |
 | `/ko-kr/2026/09/11/hello-scissorhands/` | Translated post, localized authored links, shared image resolves |
@@ -90,7 +96,7 @@ Run both modes at `/` and `/docs/` after changing views, messages, or assets. No
 | `/2099/02/01/draft-scheduled-post/` and Korean equivalent | Two preview badges; translation inherits draft despite no local draft flag |
 | `/draft-example/`, `/ko-kr/draft-example/` | Preview draft page and inherited translation; badge beside their `draft-only` tag entries |
 | `/tags/publication-preview/` and Korean equivalent | Each affected entry owns its region and badges, including both statuses on the combined post |
-| Production `dist/` | No status markers, withheld articles, `draft-only`/`publication-preview` tags, or links/navigation to withheld content |
+| Production `dist/` | No status markers, withheld articles or catalog, `draft-only`/`publication-preview` tags, or links/navigation to withheld content |
 | `/404.html` | Shared 404 role, language links to homepages, no notice/status/document SEO |
 
 In the browser, check 375px and desktop widths, light/dark and system preference, visible keyboard focus, Tab/Enter language switching, separate parent links/disclosure buttons, Escape dismissal/focus return, and readable notices/badges. Disable JavaScript and confirm language links and expanded nested navigation still work. Verify the colour toggle also works when storage is blocked.
