@@ -23,13 +23,13 @@ jobs:
 
           $reservedSlugs = @(
             "default",
-            "plugins",
             "plugin-template",
-            "theme-template",
+            "plugins",
             "scissorhands-core",
             "scissorhands-plugin",
             "scissorhands-theme",
-            "scissorhands-web"
+            "scissorhands-web",
+            "theme-template"
           )
           if ($themeSlug -in $reservedSlugs) {
             throw "Theme slug '$themeSlug' from repository '$env:REPOSITORY_NAME' is reserved. Choose a different repository name."
