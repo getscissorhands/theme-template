@@ -37,7 +37,9 @@ Generated preview and build outputs are written to `preview/` and `dist/` respec
 The header links to `/sample-content/` in preview. This draft catalog links to every
 sample post and page, including nested pages, Korean translations and fallbacks,
 the shared 404, and draft/future-scheduled examples. It is excluded from `dist/`
-so production never links to unpublished content.
+so production never links to unpublished content. Its English-column links use
+`data-localize="false"` to stay on primary routes when the Korean fallback page
+is rendered; Korean-column links explicitly use the `ko-kr/` prefix.
 
 The launch profile supplies `http://localhost:5000`, not a mode. Open that URL after starting preview. Markdown/theme asset edits trigger regeneration; refresh the browser afterward. Stop preview before rebuilding Razor/C# components, then restart it.
 
@@ -90,6 +92,7 @@ Run both modes at `/` and `/docs/` after changing views, messages, or assets. No
 | `/sample-content/`, `/ko-kr/sample-content/` | Preview-only catalog links to every post and page in both locales; Korean route shows a fallback notice |
 | `/about/`, `/ko-kr/about/` | Real translations; self-canonical with reciprocal English/Korean alternates; no fallback notice |
 | `/ko-kr/theme-guide/` | One Korean notice, English article `lang`, primary canonical, no Korean SEO alternate; navigation and Previous/Next remain Korean |
+| `/theme-guide/recipes/hidden-content/` and Korean equivalent | Generated and tagged in both modes, but omitted from navigation and Previous/Next; Recipes group stays visible through its opted-in sibling |
 | `/ko-kr/2026/09/11/hello-scissorhands/` | Translated post, localized authored links, shared image resolves |
 | `/2026/09/14/draft-post/` and Korean equivalent | Preview draft badge; Korean fallback also has a notice |
 | `/2099/01/01/scheduled-post/` and Korean equivalent | Preview scheduled badge with `data-publication-date="2099-01-01"` |

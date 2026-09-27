@@ -31,7 +31,11 @@ The title is displayed by the page template. Start the body with an introduction
 
 Set `show_in_navigation: true` to include a page in the header and previous/next sequence. Posts do not join that sequence, even if the same field is present.
 
-A page with the setting omitted or set to `false` still has a route. If an existing parent page is hidden from navigation, its descendants are hidden from that navigation branch too.
+A page with the setting omitted or set to `false` still has a route. The
+[hidden recipe](theme-guide/recipes/hidden-content) shares this source directory
+but stays outside navigation and the reading sequence. This page keeps the
+non-clickable Recipes group visible. If an existing parent page is hidden from
+navigation, its descendants are hidden from that navigation branch too.
 
 ### Tags connect different kinds of content
 
