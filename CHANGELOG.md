@@ -20,7 +20,7 @@ not reconstruct earlier release history.
 - Verified ScissorHands.NET `1.0.0-preview.20260927.1` for Core, Plugin, Theme, and Web while retaining central `1.*-*` package floating.
 - Migrated the sample from removed `Site.Locale` to ordered `Site.Locales`, directory translations, and complete application-owned `Theme.Localization` messages; explicitly configured UTC publication time.
 - Forwarded locale context and preserved engine-prepared navigation/URLs, content language, required publication regions, and encoded notice/badge receipts.
-- Initialization now aligns the manifest slug, explicit Razor namespace, and local theme link using the repository name unchanged as the slug; names that conflict with built-in view discovery fail with an actionable error.
+- Initialization now derives a shared lowercase theme slug at the start of the workflow, replacing repository-name underscores and periods with hyphens. The manifest, configuration, Razor namespace, theme link, and commit staging stay aligned while the display name and project/solution filenames retain the repository name; names that conflict with built-in view discovery fail with an actionable error.
 - Updated migration and preview guidance: preview mounts `Site.BaseUrl` and includes unpublished content. **Never deploy preview output**; deploy production builds only.
 - Renamed the CI workflow from `.github/workflows/ci.yml` to
   `.github/workflows/main.yaml`.

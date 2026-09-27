@@ -11,16 +11,29 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      REPOSITORY_NAME: ${{ github.event.repository.name }}
+      REPOSITORY_OWNER: ${{ github.repository_owner }}
 
     steps:
+      - name: Normalize theme slug
+        shell: pwsh
+        run: |
+          $themeSlug = ($env:REPOSITORY_NAME -replace '[_.]', '-').ToLowerInvariant()
+
+          # Engine-only comparison; the shared slug keeps its hyphens.
+          $themeDiscoveryKey = $themeSlug -replace '-', ''
+          if (!$themeDiscoveryKey -or $themeDiscoveryKey -eq "default" -or "scissorhandsweb".EndsWith($themeDiscoveryKey)) {
+            throw "Theme slug '$themeSlug' from repository '$env:REPOSITORY_NAME' conflicts with built-in theme discovery. Choose a name containing letters or digits that is neither 'default' nor a suffix of 'ScissorHands.Web' after punctuation and casing are ignored."
+          }
+
+          Add-Content -LiteralPath $env:GITHUB_ENV -Value "THEME_SLUG=$themeSlug" -Encoding utf8
+
       - name: Check out repository
         uses: actions/checkout@v7
 
       - name: Initialize project
         shell: pwsh
-        env:
-          REPOSITORY_NAME: ${{ github.event.repository.name }}
-          REPOSITORY_OWNER: ${{ github.repository_owner }}
         run: |
           $projectPath = "src/ThemeTemplate.csproj"
           $renamedProjectPath = "src/$env:REPOSITORY_NAME.csproj"
@@ -29,14 +42,7 @@ jobs:
           $settingsPath = "sample/appsettings.json"
           $manifestPath = "src/theme.json"
           $importsPath = "src/_Imports.razor"
-          $themeSlug = $env:REPOSITORY_NAME
-          $themeLinkPath = "sample/themes/$themeSlug"
-
-          # Match the engine's discovery rules without changing the GitHub repository name used as the slug.
-          $themeDiscoveryKey = ($themeSlug -replace '[^A-Za-z0-9]', '').ToLowerInvariant()
-          if (!$themeDiscoveryKey -or $themeDiscoveryKey -eq "default" -or "scissorhandsweb".EndsWith($themeDiscoveryKey)) {
-            throw "Repository name '$themeSlug' conflicts with built-in theme discovery. Choose a name containing letters or digits that is neither 'default' nor a suffix of 'ScissorHands.Web' after punctuation and casing are ignored."
-          }
+          $themeLinkPath = "sample/themes/$env:THEME_SLUG"
 
           if ($projectPath -cne $renamedProjectPath) {
             Move-Item -LiteralPath $projectPath -Destination $renamedProjectPath
@@ -54,19 +60,19 @@ jobs:
 
           $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
           $manifest.name = $env:REPOSITORY_NAME
-          $manifest.slug = $themeSlug
+          $manifest.slug = $env:THEME_SLUG
           $manifest |
             ConvertTo-Json -Depth 100 |
             Set-Content -LiteralPath $manifestPath
 
-          $namespaceSuffix = "Theme_" + ($env:REPOSITORY_NAME -replace '[^A-Za-z0-9_]', '_')
+          $namespaceSuffix = "Theme_" + ($env:THEME_SLUG -replace '-', '_')
           $imports = Get-Content -LiteralPath $importsPath -Raw
           $imports = $imports.Replace('@namespace ScissorHands.Theme.Template', "@namespace ScissorHands.Theme.$namespaceSuffix")
           Set-Content -LiteralPath $importsPath -Value $imports -NoNewline
 
           $settings = Get-Content -LiteralPath $settingsPath -Raw | ConvertFrom-Json
           $settings.Site.Author = $env:REPOSITORY_OWNER
-          $settings.Site.Theme = $themeSlug
+          $settings.Site.Theme = $env:THEME_SLUG
           $settings |
             ConvertTo-Json -Depth 100 |
             Set-Content -LiteralPath $settingsPath
@@ -75,13 +81,11 @@ jobs:
           New-Item -ItemType SymbolicLink -Path $themeLinkPath -Target "../../src" | Out-Null
 
       - name: Commit initialization
-        env:
-          REPOSITORY_NAME: ${{ github.event.repository.name }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm .github/workflows/init.yml
           git add --all
-          git add --force "sample/themes/${REPOSITORY_NAME}"
+          git add --force "sample/themes/${THEME_SLUG}"
           git commit -m "chore: initialize template repository"
           git push
