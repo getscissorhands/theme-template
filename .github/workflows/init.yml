@@ -21,10 +21,9 @@ jobs:
         run: |
           $themeSlug = ($env:REPOSITORY_NAME -replace '[_.]', '-').ToLowerInvariant()
 
-          # Engine-only comparison; the shared slug keeps its hyphens.
-          $themeDiscoveryKey = $themeSlug -replace '-', ''
-          if (!$themeDiscoveryKey -or $themeDiscoveryKey -eq "default" -or "scissorhandsweb".EndsWith($themeDiscoveryKey)) {
-            throw "Theme slug '$themeSlug' from repository '$env:REPOSITORY_NAME' conflicts with built-in theme discovery. Choose a name containing letters or digits that is neither 'default' nor a suffix of 'ScissorHands.Web' after punctuation and casing are ignored."
+          $reservedSlugs = @("default", "scissorhands-core", "scissorhands-plugin", "scissorhands-theme", "scissorhands-web")
+          if ($themeSlug -in $reservedSlugs) {
+            throw "Theme slug '$themeSlug' from repository '$env:REPOSITORY_NAME' is reserved. Choose a different repository name."
           }
 
           Add-Content -LiteralPath $env:GITHUB_ENV -Value "THEME_SLUG=$themeSlug" -Encoding utf8
