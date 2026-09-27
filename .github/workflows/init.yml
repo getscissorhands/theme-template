@@ -20,6 +20,9 @@ jobs:
         shell: pwsh
         run: |
           $themeSlug = ($env:REPOSITORY_NAME -replace '[_.]', '-').ToLowerInvariant()
+          if ($themeSlug -notmatch '[a-z0-9]') {
+            throw "Theme slug '$themeSlug' from repository '$env:REPOSITORY_NAME' must contain at least one letter or digit."
+          }
 
           $reservedSlugs = @(
             "default",
@@ -73,7 +76,12 @@ jobs:
             ConvertTo-Json -Depth 100 |
             Set-Content -LiteralPath $manifestPath
 
-          $namespaceSuffix = "Theme_" + ($env:THEME_SLUG -replace '-', '_')
+          $namespaceSuffix = ($env:THEME_SLUG -split '-' |
+            Where-Object { $_.Length -gt 0 } |
+            ForEach-Object { $_.Substring(0, 1).ToUpperInvariant() + $_.Substring(1) }) -join ''
+          if ($namespaceSuffix -match '^[0-9]') {
+            $namespaceSuffix = "_$namespaceSuffix"
+          }
           $imports = Get-Content -LiteralPath $importsPath -Raw
           $imports = $imports.Replace('@namespace ScissorHands.Theme.Template', "@namespace ScissorHands.Theme.$namespaceSuffix")
           Set-Content -LiteralPath $importsPath -Value $imports -NoNewline
