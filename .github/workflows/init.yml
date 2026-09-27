@@ -44,9 +44,9 @@ jobs:
         shell: pwsh
         run: |
           $projectPath = "src/ThemeTemplate.csproj"
-          $renamedProjectPath = "src/$env:REPOSITORY_NAME.csproj"
+          $renamedProjectPath = "src/$env:THEME_SLUG.csproj"
           $solutionPath = "ThemeTemplate.slnx"
-          $renamedSolutionPath = "$env:REPOSITORY_NAME.slnx"
+          $renamedSolutionPath = "$env:THEME_SLUG.slnx"
           $settingsPath = "sample/appsettings.json"
           $manifestPath = "src/theme.json"
           $importsPath = "src/_Imports.razor"
