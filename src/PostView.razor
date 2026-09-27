@@ -1,9 +1,12 @@
-@inherits ScissorHands.Theme.PostViewBase
+@inherits PostViewBase
 @layout MainLayout
 
 <section class="content-shell post">
+    <LocalizationFallbackBanner />
+    <article lang="@LocaleContext?.ContentLocale" @attributes="PublicationBadgeBase.GetRegionAttributes(Document, PublicationBadgePlacement.Detail)">
+    <PublicationBadges />
     <header class="content-header">
-        <a class="back-link" href="."><span aria-hidden="true">&larr;</span> All posts</a>
+        <a class="back-link" href="@(LocaleContext?.HomeUrl ?? ".")"><span aria-hidden="true">&larr;</span> All posts</a>
         <h1>@Document?.Metadata.Title</h1>
         @if (Document?.Metadata.Published is { } published)
         {
@@ -21,7 +24,8 @@
             </ul>
         }
     </header>
-    <article class="prose">
+    <div class="prose">
         @((MarkupString)Document?.Html!)
+    </div>
     </article>
 </section>

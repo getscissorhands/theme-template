@@ -1,6 +1,6 @@
 ---
 title: Unpublished draft example
-description: This source is intentionally excluded from the generated sample site.
+description: A preview-only page, with an inherited draft status on its translation.
 slug: draft-example
 draft: true
 show_in_navigation: true
@@ -8,6 +8,6 @@ tags:
   - draft-only
 ---
 
-This file is a source-only example. The draft flag prevents the engine from generating its page, adding it to navigation, or including its unique tag in the public tag index.
+Preview includes this page, its navigation entry, and its tag with a visible draft badge. Its Korean translation inherits the draft status even though the translation does not set `draft: true`.
 
-Change `draft` to `false` when experimenting locally to see it join the site. Avoid adding published links to it while it remains a draft.
+Production builds exclude both versions, their navigation entries, and the unique tag. Never deploy preview output.

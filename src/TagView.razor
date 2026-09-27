@@ -1,9 +1,12 @@
-@inherits ScissorHands.Theme.TagViewBase
+@inherits TagViewBase
 @layout MainLayout
 
 <section class="content-shell tag">
     <header class="content-header">
-        <a class="back-link" href="tags"><span aria-hidden="true">&larr;</span> All tags</a>
+        @if ((LocaleContext is null ? "tags" : LocaleContext.TagIndexUrl) is { } tagIndexUrl)
+        {
+            <a class="back-link" href="@tagIndexUrl"><span aria-hidden="true">&larr;</span> All tags</a>
+        }
         <h1>#@Tag</h1>
     </header>
     @if (TaggedPosts?.Any() != true && TaggedPages?.Any() != true)
@@ -19,8 +22,9 @@
                 <ul class="content-list">
                     @foreach (var post in TaggedPosts)
                     {
-                        <li>
+                        <li @attributes="PublicationBadgeBase.GetRegionAttributes(post, PublicationBadgePlacement.Listing)">
                             <a href="@GetContentUrl(post.Metadata.Slug)">@post.Metadata.Title</a>
+                            <PublicationBadges Content="@post" Placement="PublicationBadgePlacement.Listing" />
                             @if (post.Metadata.Published is { } published)
                             {
                                 <time datetime="@published.ToString("O")">@published.ToString("MMMM dd, yyyy")</time>
@@ -37,7 +41,10 @@
                 <ul class="content-list">
                     @foreach (var pageDocument in TaggedPages)
                     {
-                        <li><a href="@GetContentUrl(pageDocument.Metadata.Slug)">@pageDocument.Metadata.Title</a></li>
+                        <li @attributes="PublicationBadgeBase.GetRegionAttributes(pageDocument, PublicationBadgePlacement.Listing)">
+                            <a href="@GetContentUrl(pageDocument.Metadata.Slug)">@pageDocument.Metadata.Title</a>
+                            <PublicationBadges Content="@pageDocument" Placement="PublicationBadgePlacement.Listing" />
+                        </li>
                     }
                 </ul>
             </section>

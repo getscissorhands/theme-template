@@ -10,11 +10,19 @@ not reconstruct earlier release history.
 
 ### Added
 
+- Theme-owned language switching, canonical/alternate metadata, fallback notices, and preview publication badges using the engine's validated rendering contracts.
+- English/Korean sample translations and draft, scheduled, combined, inherited, and missing-translation examples; root/subpath and browser regression guidance.
 - GitHub releases with generated notes for new `v*` tag pushes, gated on a
   successful Release solution build. Release versions are extracted from tags.
 
 ### Changed
 
+- Verified ScissorHands.NET `1.0.0-preview.20260927.1` for Core, Plugin, Theme, and Web while retaining central `1.*-*` package floating.
+- Migrated the sample from removed `Site.Locale` to ordered `Site.Locales`, directory translations, and complete application-owned `Theme.Localization` messages; explicitly configured UTC publication time.
+- Forwarded locale context and preserved engine-prepared navigation/URLs, content language, required publication regions, and encoded notice/badge receipts.
+- Initialization now derives a shared lowercase theme slug at the start of the workflow, replacing repository-name underscores and periods with hyphens. Project/solution filenames, the manifest, configuration, Razor namespace, theme link, and commit staging stay aligned while the display name retains the repository name. An explicit reserved list rejects `default`, `plugins`, `plugin-template`, `theme-template`, `scissorhands-core`, `scissorhands-plugin`, `scissorhands-theme`, and `scissorhands-web` with an actionable error.
+- Generated Razor namespace suffixes use PascalCase instead of an unconditional `Theme_` prefix, adding `_` only for digit-leading identifiers. Slugs containing no letters or digits are rejected at the start of initialization.
+- Updated migration and preview guidance: preview mounts `Site.BaseUrl` and includes unpublished content. **Never deploy preview output**; deploy production builds only.
 - Renamed the CI workflow from `.github/workflows/ci.yml` to
   `.github/workflows/main.yaml`.
 

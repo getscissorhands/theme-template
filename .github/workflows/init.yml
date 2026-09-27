@@ -11,37 +11,84 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      REPOSITORY_NAME: ${{ github.event.repository.name }}
+      REPOSITORY_OWNER: ${{ github.repository_owner }}
 
     steps:
+      - name: Normalize theme slug
+        shell: pwsh
+        run: |
+          $themeSlug = ($env:REPOSITORY_NAME -replace '[_.]', '-').ToLowerInvariant()
+          if ($themeSlug -notmatch '[a-z0-9]') {
+            throw "Theme slug '$themeSlug' from repository '$env:REPOSITORY_NAME' must contain at least one letter or digit."
+          }
+
+          $reservedSlugs = @(
+            "default",
+            "plugin-template",
+            "plugins",
+            "scissorhands-core",
+            "scissorhands-plugin",
+            "scissorhands-theme",
+            "scissorhands-web",
+            "theme-template"
+          )
+          if ($themeSlug -in $reservedSlugs) {
+            throw "Theme slug '$themeSlug' from repository '$env:REPOSITORY_NAME' is reserved. Choose a different repository name."
+          }
+
+          Add-Content -LiteralPath $env:GITHUB_ENV -Value "THEME_SLUG=$themeSlug" -Encoding utf8
+
       - name: Check out repository
         uses: actions/checkout@v7
 
       - name: Initialize project
         shell: pwsh
-        env:
-          REPOSITORY_NAME: ${{ github.event.repository.name }}
-          REPOSITORY_OWNER: ${{ github.repository_owner }}
         run: |
           $projectPath = "src/ThemeTemplate.csproj"
-          $renamedProjectPath = "src/$env:REPOSITORY_NAME.csproj"
+          $renamedProjectPath = "src/$env:THEME_SLUG.csproj"
           $solutionPath = "ThemeTemplate.slnx"
-          $renamedSolutionPath = "$env:REPOSITORY_NAME.slnx"
+          $renamedSolutionPath = "$env:THEME_SLUG.slnx"
           $settingsPath = "sample/appsettings.json"
-          $themeLinkPath = "sample/themes/$env:REPOSITORY_NAME"
+          $manifestPath = "src/theme.json"
+          $importsPath = "src/_Imports.razor"
+          $themeLinkPath = "sample/themes/$env:THEME_SLUG"
 
-          Move-Item -LiteralPath $projectPath -Destination $renamedProjectPath
+          if ($projectPath -cne $renamedProjectPath) {
+            Move-Item -LiteralPath $projectPath -Destination $renamedProjectPath
+          }
 
           $solution = Get-Content -LiteralPath $solutionPath -Raw
           $updatedSolution = $solution.Replace($projectPath, $renamedProjectPath)
-          if ($solution -eq $updatedSolution) {
+          if (!$solution.Contains($projectPath)) {
             throw "Project path '$projectPath' was not found in '$solutionPath'."
           }
           Set-Content -LiteralPath $solutionPath -Value $updatedSolution -NoNewline
-          Move-Item -LiteralPath $solutionPath -Destination $renamedSolutionPath
+          if ($solutionPath -cne $renamedSolutionPath) {
+            Move-Item -LiteralPath $solutionPath -Destination $renamedSolutionPath
+          }
+
+          $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+          $manifest.name = $env:REPOSITORY_NAME
+          $manifest.slug = $env:THEME_SLUG
+          $manifest |
+            ConvertTo-Json -Depth 100 |
+            Set-Content -LiteralPath $manifestPath
+
+          $namespaceSuffix = ($env:THEME_SLUG -split '-' |
+            Where-Object { $_.Length -gt 0 } |
+            ForEach-Object { $_.Substring(0, 1).ToUpperInvariant() + $_.Substring(1) }) -join ''
+          if ($namespaceSuffix -match '^[0-9]') {
+            $namespaceSuffix = "_$namespaceSuffix"
+          }
+          $imports = Get-Content -LiteralPath $importsPath -Raw
+          $imports = $imports.Replace('@namespace ScissorHands.Theme.Template', "@namespace ScissorHands.Theme.$namespaceSuffix")
+          Set-Content -LiteralPath $importsPath -Value $imports -NoNewline
 
           $settings = Get-Content -LiteralPath $settingsPath -Raw | ConvertFrom-Json
           $settings.Site.Author = $env:REPOSITORY_OWNER
-          $settings.Site.Theme = $env:REPOSITORY_NAME
+          $settings.Site.Theme = $env:THEME_SLUG
           $settings |
             ConvertTo-Json -Depth 100 |
             Set-Content -LiteralPath $settingsPath
@@ -50,13 +97,11 @@ jobs:
           New-Item -ItemType SymbolicLink -Path $themeLinkPath -Target "../../src" | Out-Null
 
       - name: Commit initialization
-        env:
-          REPOSITORY_NAME: ${{ github.event.repository.name }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm .github/workflows/init.yml
           git add --all
-          git add --force "sample/themes/${REPOSITORY_NAME}"
+          git add --force "sample/themes/${THEME_SLUG}"
           git commit -m "chore: initialize template repository"
           git push
