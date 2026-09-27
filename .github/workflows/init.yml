@@ -32,8 +32,9 @@ jobs:
           $themeSlug = $env:REPOSITORY_NAME
           $themeLinkPath = "sample/themes/$themeSlug"
 
-          $normalizedSlug = ($themeSlug -replace '[^A-Za-z0-9]', '').ToLowerInvariant()
-          if (!$normalizedSlug -or $normalizedSlug -eq "default" -or "scissorhandsweb".EndsWith($normalizedSlug)) {
+          # Match the engine's discovery rules without changing the GitHub repository name used as the slug.
+          $themeDiscoveryKey = ($themeSlug -replace '[^A-Za-z0-9]', '').ToLowerInvariant()
+          if (!$themeDiscoveryKey -or $themeDiscoveryKey -eq "default" -or "scissorhandsweb".EndsWith($themeDiscoveryKey)) {
             throw "Repository name '$themeSlug' conflicts with built-in theme discovery. Choose a name containing letters or digits that is neither 'default' nor a suffix of 'ScissorHands.Web' after punctuation and casing are ignored."
           }
 
