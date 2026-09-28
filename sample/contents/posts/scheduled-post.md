@@ -2,6 +2,7 @@
 title: Scheduled post preview
 description: A future post paired with a scheduled translation.
 slug: scheduled-post
+hero_image: /images/scheduled-post.svg
 published: 2099-01-01
 tags:
   - publication-preview

@@ -2,6 +2,7 @@
 title: 예약 게시물 예제
 description: 예약된 번역과 쌍을 이루는 미래 날짜의 글입니다.
 slug: scheduled-post
+hero_image: /images/scheduled-post.svg
 published: 2099-01-01
 tags:
   - publication-preview

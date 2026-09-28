@@ -330,7 +330,8 @@ td {
   font-size: clamp(1.05rem, 3vw, 1.2rem);
 }
 
-.home-hero {
+.home-hero,
+.post-hero {
   width: 100%;
   height: auto;
   margin-block-start: 1.5rem;

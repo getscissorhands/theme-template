@@ -2,6 +2,7 @@
 title: 안녕하세요, ScissorHands
 description: Markdown에서 스타터 Razor 테마를 거쳐 렌더링된 예제 글입니다.
 slug: hello-scissorhands
+hero_image: /images/hello-world.png
 published: 2026-09-11
 tags:
   - dotnet

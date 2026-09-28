@@ -2,6 +2,7 @@
 title: 초안 및 예약 게시물 예제
 description: 상태를 상속하는 번역에도 필요한 두 가지 미리 보기 배지입니다.
 slug: draft-scheduled-post
+hero_image: /images/scheduled-post.svg
 published: 2099-02-01
 tags:
   - publication-preview

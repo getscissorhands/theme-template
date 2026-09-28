@@ -1,3 +1,4 @@
+@using ScissorHands.Core.Urls
 @inherits PostViewBase
 @layout MainLayout
 
@@ -22,6 +23,10 @@
                     <li><a href="@GetTagUrl(tag)">#@tag</a></li>
                 }
             </ul>
+        }
+        @if (Document?.Metadata.HeroImage is { } heroImage)
+        {
+            <img class="post-hero" src="@ContentUrlHelper.GetImageUrl(heroImage)" alt="" />
         }
     </header>
     <div class="prose">
