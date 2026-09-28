@@ -330,6 +330,14 @@ td {
   font-size: clamp(1.05rem, 3vw, 1.2rem);
 }
 
+.home-hero {
+  width: 100%;
+  height: auto;
+  margin-block-start: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+}
+
 .post-list {
   border-top: 1px solid var(--color-border);
 }

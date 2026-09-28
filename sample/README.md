@@ -4,7 +4,7 @@ This project provides an end-to-end preview using the NuGet.org engine packages 
 
 ## Tested engine baseline
 
-Restore and generation were verified with **`1.0.0-preview.20260927.1`** for all four packages: `ScissorHands.Core`, `ScissorHands.Plugin`, `ScissorHands.Theme`, and `ScissorHands.Web`.
+Restore and generation were verified with **`1.0.0-preview.20260928.1`** for all four packages: `ScissorHands.Core`, `ScissorHands.Plugin`, `ScissorHands.Theme`, and `ScissorHands.Web`.
 
 `Directory.Packages.props` intentionally retains `1.*-*`; no lock file or exact pin is added. A future restore may select a newer release. From the repository root, check the actual resolved versions:
 
@@ -32,6 +32,8 @@ dotnet run -- --build
 
 Generated preview and build outputs are written to `preview/` and `dist/` respectively.
 
+The sample configures `Theme.HeroImages` with a local illustration from `contents/images/hero.svg`. `MainLayout` forwards the validated `ThemeSettings` to its child views; the home view renders the first configured image using the image URL helper, so it also works under a subpath. Remove the collection or set it to `[]` to omit the hero. Each entry needs a `Source` and an `Alt` value (use `""` for decorative art). `Site.HeroImage` is no longer supported by the current packages.
+
 **Never deploy `preview/`.** It deliberately includes unpublished content. Deploy only production `dist/`, with deletions enabled so withdrawn pages do not remain on the host. Keep the engine's output ownership ledger during in-place generation; clean old output once when upgrading from an engine without that ledger.
 
 The home page lists posts, including drafts and scheduled posts in preview.
@@ -47,14 +49,14 @@ The launch profile supplies `http://localhost:5000`, not a mode. Open that URL a
 - Keep primary files directly in the existing `contents/pages/` and `contents/posts/` trees. Put translations beneath the additional-locale directory immediately inside those trees, such as `contents/pages/ko-kr/about.md`. Remove all frontmatter `locale` fields; do not add an `en-us/` directory.
 - Pair translations by the primary slug. Paired posts must both declare the **same written calendar date**, even when their times/offsets differ.
 - Supply application-owned `Theme.Localization` entries for **every** declared locale, including primary: nonblank `TranslationUnavailable`, `Draft`, and `ScheduledOn`. The latter is a complete format template containing a real `{0}` date argument, not only escaped `{{0}}`. Missing messages or malformed templates fail before rendering in both modes; package/English messages never fill declared-locale gaps.
-- `Site.Theme` remains a slug string. Application messages are composed with the package's `theme.json`; do not replace its identity, stylesheets, or scripts.
+- `Site.Theme` remains a slug string. Application messages come from the validated top-level `Theme.Localization` settings, not from the package's `theme.json`; do not replace its identity, stylesheets, or scripts.
 - Omitted, null, or empty `Site.Locales` disables localization and leaves HTML language unspecified. English status messages remain available without enabling an English route. Locale-looking folders then become ordinary content, not excluded translations: move the sample's two `ko-kr` source directories **outside `contents`** before disabling locales to avoid duplicate explicit slugs or accidentally publishing translations as primary content.
 
 The theme forwards `LocaleContext`, renders the three localization base components, and uses engine-prepared switcher/navigation/SEO URLs. A fallback keeps the requested route and UI language but annotates the article with its actual content language. Its canonical points to primary content; `hreflang` lists only actual translations. Home/tag collections and the shared `404.html` have switching links but no paired-document SEO or fallback notice. Other theme UI text is not automatically translated.
 
 Fallback notices use `BannerAttributes` and the encoded `FallbackMessageContent`. Publication badges use `GetRegionAttributes`, each badge's `Attributes`, and `RenderContent(label)`. Preserve these receipts, regions, date/route attributes, and visible content when customizing; engine validation is intentional, not something to disable.
 
-See the [versioned migration guide](https://github.com/getscissorhands/Scissorhands.NET/blob/v1.0.0-preview.20260927.1/docs/website-documentation.md#upgrading-to-vnext) for the full contract.
+See the [versioned migration guide](https://github.com/getscissorhands/Scissorhands.NET/blob/v1.0.0-preview.20260928.1/docs/website-documentation.md#upgrading-to-vnext) for the full contract.
 
 ## Publication and timezone
 
