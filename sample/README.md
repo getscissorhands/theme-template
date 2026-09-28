@@ -32,6 +32,8 @@ dotnet run -- --build
 
 Generated preview and build outputs are written to `preview/` and `dist/` respectively.
 
+The sample configures `Theme.HeroImages` with a local illustration from `contents/images/hero.svg`. `MainLayout` forwards the validated `ThemeSettings` to its child views; the home view renders the first configured image using the image URL helper, so it also works under a subpath. Remove the collection or set it to `[]` to omit the hero. Each entry needs a `Source` and an `Alt` value (use `""` for decorative art). `Site.HeroImage` is no longer supported by the current packages.
+
 **Never deploy `preview/`.** It deliberately includes unpublished content. Deploy only production `dist/`, with deletions enabled so withdrawn pages do not remain on the host. Keep the engine's output ownership ledger during in-place generation; clean old output once when upgrading from an engine without that ledger.
 
 The home page lists posts, including drafts and scheduled posts in preview.

@@ -10,6 +10,11 @@
             {
                 <p>@Site.Description</p>
             }
+            @if (ThemeSettings!.HeroImages.FirstOrDefault() is { } heroImage)
+            {
+                <img class="home-hero" src="@ContentUrlHelper.GetImageUrl(heroImage.Source)"
+                     alt="@heroImage.Alt" />
+            }
         </header>
         @if (Documents?.Any() != true)
         {

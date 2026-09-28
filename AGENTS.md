@@ -41,7 +41,7 @@ The sample's `themes/<theme-slug>` link must point to the repository's `src` dir
 
 Preserve parameter forwarding from `MainLayout` into `CascadingMainLayoutBase`:
 
-- General context: `Documents`, `Document`, `Plugins`, `Theme`, and `Site`.
+- General context: `Documents`, `Document`, `Plugins`, `Theme`, `ThemeSettings`, and `Site`.
 - Tag context: `TaggedDocuments`, `Tag`, `TaggedPosts`, and `TaggedPages`.
 - Adjacent-page context: `PageNavigation`.
 - Locale context: `LocaleContext`, preserving requested locale separately from content language.
