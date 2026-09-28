@@ -2,7 +2,7 @@
 
 A starter theme for ScissorHands.NET with Razor views, responsive styling, light/dark mode, and sample content. No UI framework or JavaScript build step is required.
 
-Tested with **ScissorHands.NET `1.0.0-preview.20260927.1`** (Core, Plugin, Theme, and Web). Central package declarations retain the `1.*-*` floating policy; see the [sample guide](sample/README.md) to verify your resolved versions and migrate older configurations.
+Tested with **ScissorHands.NET `1.0.0-preview.20260928.1`** (Core, Plugin, Theme, and Web). Central package declarations retain the `1.*-*` floating policy; see the [sample guide](sample/README.md) to verify your resolved versions and migrate older configurations.
 
 See the **[theme documentation](https://getscissorhands.app/docs/themes/)** for setup, configuration, component APIs, navigation, and customization.
 
