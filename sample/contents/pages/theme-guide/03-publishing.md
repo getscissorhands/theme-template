@@ -42,7 +42,6 @@ Before publishing, inspect a post, a page, the [tag index](tags), and the not-fo
 
 ## Keep experimenting
 
-In production this is the last opted-in page, so it has no Next link. Preview
-adds a draft content catalog afterward to index unpublished examples. Return
-through Previous, open the [guide index](theme-guide), or browse the
-[reference notes](reference).
+This is the last opted-in page in both preview and production, so it has no Next
+link. Return through Previous, open the [guide index](theme-guide), or browse
+the [reference notes](reference).

@@ -9,7 +9,7 @@ tags:
   - static-site
 ---
 
-This second article gives the home page a more realistic list of dated posts.
+This article gives the home page a more realistic list of dated posts.
 Its tags overlap with the style sampler and the guide, so a topic page can show
 both **Posts** and **Pages** without treating them as the same kind of content.
 

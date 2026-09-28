@@ -7,8 +7,6 @@ tags:
   - static-site
 ---
 
-# Hello, ScissorHands
-
 This page demonstrates the complete generation pipeline:
 
 1. YAML frontmatter is loaded and validated.

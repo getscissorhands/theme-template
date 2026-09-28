@@ -1,7 +1,7 @@
 ---
-title: Hidden recipe
-description: A nested page that is published but omitted from navigation.
-slug: theme-guide/recipes/hidden-content
+title: Unlisted recipe
+description: A published nested page omitted from navigation and the reading sequence.
+slug: theme-guide/recipes/unlisted
 show_in_navigation: false
 tags:
   - theme
@@ -9,7 +9,7 @@ tags:
   - visibility
 ---
 
-This page sits beside [Writing content](theme-guide/recipes/content) under
+This page sits beside [Writing content](theme-guide/recipes/writing) under
 `theme-guide/02-recipes/`. Its route is generated in both preview and production,
 but `show_in_navigation: false` keeps it out of the header and the automatic
 Previous/Next reading sequence.
