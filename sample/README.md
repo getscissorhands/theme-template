@@ -54,6 +54,8 @@ The launch profile supplies `http://localhost:5000`, not a mode. Open that URL a
 
 The theme forwards `LocaleContext`, renders the three localization base components, and uses engine-prepared switcher/navigation/SEO URLs. A fallback keeps the requested route and UI language but annotates the article with its actual content language. Its canonical points to primary content; `hreflang` lists only actual translations. Home/tag collections and the shared `404.html` have switching links but no paired-document SEO or fallback notice. Other theme UI text is not automatically translated.
 
+The five Korean source files translate their paired English articles, including links and examples. Other Korean routes intentionally use the English originals to demonstrate fallback behavior.
+
 Fallback notices use `BannerAttributes` and the encoded `FallbackMessageContent`. Publication badges use `GetRegionAttributes`, each badge's `Attributes`, and `RenderContent(label)`. Preserve these receipts, regions, date/route attributes, and visible content when customizing; engine validation is intentional, not something to disable.
 
 See the [versioned migration guide](https://github.com/getscissorhands/Scissorhands.NET/blob/v1.0.0-preview.20260928.1/docs/website-documentation.md#upgrading-to-vnext) for the full contract.
@@ -94,7 +96,8 @@ Run both modes at `/` and `/docs/` after changing views, messages, or assets. No
 | `/ko-kr/theme-guide/` | One Korean notice, English article `lang`, primary canonical, no Korean SEO alternate; navigation and Previous/Next remain Korean |
 | `/theme-guide/recipes/writing/` and Korean equivalent | Opted-in grandchild under the non-clickable Recipes group; its Next link goes to Publishing |
 | `/theme-guide/recipes/unlisted/` and Korean equivalent | Generated and tagged in both modes, but omitted from navigation and Previous/Next; Recipes group stays visible through its opted-in sibling |
-| `/ko-kr/2026/09/11/hello-scissorhands/` | Translated post, localized authored links, shared image resolves |
+| `/ko-kr/2026/09/11/hello-scissorhands/` | Translated post, localized authored links, matching generation steps and code sample |
+| `/2026/09/12/markdown-showcase/` | Content image resolves from a shared path |
 | `/2026/09/14/draft-post/` and Korean equivalent | Preview draft badge; Korean fallback also has a notice |
 | `/2099/01/01/scheduled-post/` and Korean equivalent | Preview scheduled badge with `data-publication-date="2099-01-01"` |
 | `/2099/02/01/draft-scheduled-post/` and Korean equivalent | Two preview badges; translation inherits draft despite no local draft flag |
