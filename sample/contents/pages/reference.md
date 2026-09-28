@@ -22,9 +22,10 @@ It is still reachable through links and the [theme tag](tags/theme), where it ap
 | `pages/about.md` | A single page opted into navigation |
 | `pages/theme-guide/index.md` | A directory landing page |
 | `pages/theme-guide/01-layout.md` | Source ordering with a stable slug |
-| `pages/theme-guide/02-recipes/01-content.md` | A missing-parent navigation group |
+| `pages/theme-guide/02-recipes/01-writing.md` | A missing-parent navigation group |
+| `pages/theme-guide/02-recipes/02-unlisted.md` | A nested page outside navigation and reading order |
 | `posts/markdown-showcase.md` | A longer article with varied Markdown |
-| `pages/draft-example.md` | A preview-only draft, excluded from production output |
+| `pages/draft-page.md` | A preview-only draft, excluded from production output |
 
 Return to the [theme guide](theme-guide) or read more in the
-[upstream engine sample](https://github.com/getscissorhands/ScissorHands.NET/tree/vnext/samples/ScissorHands.Sample).
+[upstream engine sample](https://github.com/getscissorhands/ScissorHands.NET/tree/vnext/sample).

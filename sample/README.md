@@ -34,6 +34,11 @@ Generated preview and build outputs are written to `preview/` and `dist/` respec
 
 **Never deploy `preview/`.** It deliberately includes unpublished content. Deploy only production `dist/`, with deletions enabled so withdrawn pages do not remain on the host. Keep the engine's output ownership ledger during in-place generation; clean old output once when upgrading from an engine without that ledger.
 
+The home page lists posts, including drafts and scheduled posts in preview.
+The theme guide links to its unlisted nested page, and tag pages also expose
+published pages outside navigation. Use the route checks below to inspect
+translations, fallbacks, and the shared 404.
+
 The launch profile supplies `http://localhost:5000`, not a mode. Open that URL after starting preview. Markdown/theme asset edits trigger regeneration; refresh the browser afterward. Stop preview before rebuilding Razor/C# components, then restart it.
 
 ## Localization migration
@@ -83,12 +88,15 @@ Run both modes at `/` and `/docs/` after changing views, messages, or assets. No
 | --- | --- |
 | `/`, `/ko-kr/`, `/tags/`, `/ko-kr/tags/` | Primary stays unprefixed; locale-specific Home, Tags, article and tag links work; no document canonical/alternates |
 | `/about/`, `/ko-kr/about/` | Real translations; self-canonical with reciprocal English/Korean alternates; no fallback notice |
+| `/reference/`, `/ko-kr/reference/` | Published page outside navigation and reading order; still linked from the `theme` tag, with a Korean fallback |
 | `/ko-kr/theme-guide/` | One Korean notice, English article `lang`, primary canonical, no Korean SEO alternate; navigation and Previous/Next remain Korean |
+| `/theme-guide/recipes/writing/` and Korean equivalent | Opted-in grandchild under the non-clickable Recipes group; its Next link goes to Publishing |
+| `/theme-guide/recipes/unlisted/` and Korean equivalent | Generated and tagged in both modes, but omitted from navigation and Previous/Next; Recipes group stays visible through its opted-in sibling |
 | `/ko-kr/2026/09/11/hello-scissorhands/` | Translated post, localized authored links, shared image resolves |
 | `/2026/09/14/draft-post/` and Korean equivalent | Preview draft badge; Korean fallback also has a notice |
 | `/2099/01/01/scheduled-post/` and Korean equivalent | Preview scheduled badge with `data-publication-date="2099-01-01"` |
 | `/2099/02/01/draft-scheduled-post/` and Korean equivalent | Two preview badges; translation inherits draft despite no local draft flag |
-| `/draft-example/`, `/ko-kr/draft-example/` | Preview draft page and inherited translation; badge beside their `draft-only` tag entries |
+| `/draft-page/`, `/ko-kr/draft-page/` | Preview draft page and inherited translation; badge beside their `draft-only` tag entries |
 | `/tags/publication-preview/` and Korean equivalent | Each affected entry owns its region and badges, including both statuses on the combined post |
 | Production `dist/` | No status markers, withheld articles, `draft-only`/`publication-preview` tags, or links/navigation to withheld content |
 | `/404.html` | Shared 404 role, language links to homepages, no notice/status/document SEO |

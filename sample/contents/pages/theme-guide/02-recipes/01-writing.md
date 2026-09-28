@@ -1,7 +1,7 @@
 ---
 title: Writing content
 description: Use frontmatter to control page routes, navigation visibility, and shared topics.
-slug: theme-guide/recipes/content
+slug: theme-guide/recipes/writing
 show_in_navigation: true
 tags:
   - markdown
@@ -9,7 +9,9 @@ tags:
   - navigation
 ---
 
-The source filename of this page controls its place in the reading sequence. Its explicit slug controls its URL and places it under the Recipes group in the navigation tree.
+The `01-writing.md` source filename places this page first within the Recipes
+directory. Its explicit slug keeps the public URL independent of the numeric
+prefix and places it under the non-clickable Recipes group in navigation.
 
 ## Page frontmatter
 
@@ -31,7 +33,11 @@ The title is displayed by the page template. Start the body with an introduction
 
 Set `show_in_navigation: true` to include a page in the header and previous/next sequence. Posts do not join that sequence, even if the same field is present.
 
-A page with the setting omitted or set to `false` still has a route. If an existing parent page is hidden from navigation, its descendants are hidden from that navigation branch too.
+A page with the setting omitted or set to `false` still has a route. The
+[unlisted recipe](theme-guide/recipes/unlisted) shares this source directory
+but stays outside navigation and the reading sequence. This page keeps the
+non-clickable Recipes group visible. If an existing parent page is hidden from
+navigation, its descendants are hidden from that navigation branch too.
 
 ### Tags connect different kinds of content
 
