@@ -95,12 +95,16 @@ jobs:
           foreach ($docPath in @("AGENTS.md", "README.md", "sample/README.md")) {
             $doc = Get-Content -LiteralPath $docPath -Raw
             $doc = $doc.Replace('<theme-slug>', $env:THEME_SLUG)
+            if ($docPath -ne "AGENTS.md") {
+              $doc = $doc.Replace('ThemeTemplate.csproj', "$env:THEME_SLUG.csproj")
+            }
             Set-Content -LiteralPath $docPath -Value $doc -NoNewline
           }
 
           $settings = Get-Content -LiteralPath $settingsPath -Raw | ConvertFrom-Json
           $settings.Site.Author = $env:REPOSITORY_OWNER
           $settings.Site.Theme = $env:THEME_SLUG
+          $settings.Site.Title = "ScissorHands.NET - $env:REPOSITORY_NAME"
           $settings |
             ConvertTo-Json -Depth 100 |
             Set-Content -LiteralPath $settingsPath
