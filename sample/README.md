@@ -6,15 +6,13 @@ This project provides an end-to-end preview using the NuGet.org engine packages 
 
 Restore and generation were verified with **`1.0.0-preview.20260928.1`** for all four packages: `ScissorHands.Core`, `ScissorHands.Plugin`, `ScissorHands.Theme`, and `ScissorHands.Web`.
 
-`Directory.Packages.props` intentionally retains `1.*-*`; no lock file or exact pin is added. A future restore may select a newer release. From the repository root, check the actual resolved versions:
+`Directory.Packages.props` intentionally retains `1.*-*`; no lock file or exact pin is added. A future restore may select a newer release. From the repository root, restore and build:
 
 ```bash
-dotnet restore
-dotnet list ThemeTemplate.slnx package --include-transitive
-dotnet build
+dotnet restore && dotnet build
 ```
 
-Use `<theme-slug>.slnx` in a generated repository. Confirm the local theme link described in the [template README](../README.md) exists **before building** so the sample compiles the theme's Razor components. Its `bin`/`obj` exclusions must remain intact. Startup uses automatic discovery, not explicit layout registrations.
+Confirm the local theme link described in the [template README](../README.md) exists **before building** so the sample compiles the theme's Razor components. Its `bin`/`obj` exclusions must remain intact. Startup uses automatic discovery, not explicit layout registrations.
 
 ## Running the preview
 
