@@ -308,10 +308,13 @@ td {
   padding: 0;
 }
 
-.github-link svg {
+.github-icon {
   width: 1.25rem;
   height: 1.25rem;
-  fill: currentColor;
+  flex: none;
+  background-color: currentColor;
+  -webkit-mask: url("https://cdn.simpleicons.org/github/181717") center / contain no-repeat;
+  mask: url("https://cdn.simpleicons.org/github/181717") center / contain no-repeat;
 }
 
 .language-switcher {
