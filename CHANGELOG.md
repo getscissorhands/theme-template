@@ -8,6 +8,21 @@ not reconstruct earlier release history.
 
 ## [Unreleased]
 
+## [v1.0.0-preview.20260929.1] - 2026-09-29
+
+### Added
+
+- Post hero images for the English and Korean hello and scheduled examples, rendered with base-relative URLs.
+- A GitHub link in the header and five locally stored SVG control icons.
+
+### Changed
+
+- Aligned the five Korean sample translations with their English counterparts, including metadata, links, and examples.
+- Moved language switching into an accessible header dropdown that works without JavaScript.
+- Grouped supporting Razor components under `src/Components/` and extracted recursive navigation markup, while keeping `MainLayout` at the root for theme discovery.
+- Extended generated-repository initialization to use the repository description, personalize the sample title, and replace theme-slug and project-name placeholders in the guides.
+- Removed the unused logo asset and shortened the onboarding and contributor guides.
+
 ## [v1.0.0-preview.20260928.1] - 2026-09-28
 
 ### Added
@@ -48,6 +63,7 @@ not reconstruct earlier release history.
 - Updated workflow actions to `actions/checkout@v7` and
   `actions/setup-dotnet@v6`.
 
-[Unreleased]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260928.1...HEAD
+[Unreleased]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260929.1...HEAD
+[v1.0.0-preview.20260929.1]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260928.1...v1.0.0-preview.20260929.1
 [v1.0.0-preview.20260928.1]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260915.1...v1.0.0-preview.20260928.1
 [v1.0.0-preview.20260915.1]: https://github.com/getscissorhands/theme-template/tree/v1.0.0-preview.20260915.1
