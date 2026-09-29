@@ -8,6 +8,17 @@ not reconstruct earlier release history.
 
 ## [Unreleased]
 
+## [v1.0.0-preview.20260929.2] - 2026-09-29
+
+### Added
+
+- Eleven ordered development issues for new theme repositories, covering requirements, design, hero images, icons, Razor views, plugins, content, metadata, accessibility, agent guidance, and final preview.
+
+### Changed
+
+- New-repository initialization creates the issues with duplicate protection for retries and a manual dispatch fallback, then removes the issue definitions alongside the initialization workflow.
+- Noted the generated development issues in the onboarding guide.
+
 ## [v1.0.0-preview.20260929.1] - 2026-09-29
 
 ### Added
@@ -63,7 +74,8 @@ not reconstruct earlier release history.
 - Updated workflow actions to `actions/checkout@v7` and
   `actions/setup-dotnet@v6`.
 
-[Unreleased]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260929.1...HEAD
+[Unreleased]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260929.2...HEAD
+[v1.0.0-preview.20260929.2]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260929.1...v1.0.0-preview.20260929.2
 [v1.0.0-preview.20260929.1]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260928.1...v1.0.0-preview.20260929.1
 [v1.0.0-preview.20260928.1]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260915.1...v1.0.0-preview.20260928.1
 [v1.0.0-preview.20260915.1]: https://github.com/getscissorhands/theme-template/tree/v1.0.0-preview.20260915.1
