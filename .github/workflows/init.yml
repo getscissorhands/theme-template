@@ -13,6 +13,7 @@ jobs:
       contents: write
     env:
       REPOSITORY_NAME: ${{ github.event.repository.name }}
+      REPOSITORY_DESCRIPTION: ${{ github.event.repository.description }}
       REPOSITORY_OWNER: ${{ github.repository_owner }}
 
     steps:
@@ -72,6 +73,11 @@ jobs:
           $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
           $manifest.name = $env:REPOSITORY_NAME
           $manifest.slug = $env:THEME_SLUG
+          if ([string]::IsNullOrWhiteSpace($env:REPOSITORY_DESCRIPTION)) {
+            $manifest.description = "A theme, called $env:REPOSITORY_NAME, for ScissorHands.NET"
+          } else {
+            $manifest.description = $env:REPOSITORY_DESCRIPTION
+          }
           $manifest |
             ConvertTo-Json -Depth 100 |
             Set-Content -LiteralPath $manifestPath
@@ -85,6 +91,12 @@ jobs:
           $imports = Get-Content -LiteralPath $importsPath -Raw
           $imports = $imports.Replace('ScissorHands.Theme.Template', "ScissorHands.Theme.$namespaceSuffix")
           Set-Content -LiteralPath $importsPath -Value $imports -NoNewline
+
+          foreach ($docPath in @("AGENTS.md", "README.md", "sample/README.md")) {
+            $doc = Get-Content -LiteralPath $docPath -Raw
+            $doc = $doc.Replace('<theme-slug>', $env:THEME_SLUG)
+            Set-Content -LiteralPath $docPath -Value $doc -NoNewline
+          }
 
           $settings = Get-Content -LiteralPath $settingsPath -Raw | ConvertFrom-Json
           $settings.Site.Author = $env:REPOSITORY_OWNER
