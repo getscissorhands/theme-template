@@ -24,6 +24,7 @@ src/
 │   │   └── icons/
 │   │       ├── chevron-down.svg
 │   │       ├── globe.svg
+│   │       ├── github.svg
 │   │       ├── moon.svg
 │   │       └── sun.svg
 │   └── js/
