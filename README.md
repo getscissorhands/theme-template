@@ -32,6 +32,7 @@ src/
 ├── theme.json
 ├── ThemeTemplate.csproj
 ├── _Imports.razor
+├── MainLayout.razor
 ├── IndexView.razor
 ├── PostView.razor
 ├── PageView.razor
@@ -39,7 +40,6 @@ src/
 ├── TagListView.razor
 ├── TagView.razor
 └── Components/
-    ├── MainLayout.razor
     ├── LanguageSwitcher.razor
     ├── LocalizationMetadata.razor
     ├── LocalizationFallbackBanner.razor

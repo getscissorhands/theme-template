@@ -34,7 +34,7 @@ The sample's `themes/<theme-slug>` link must point to the repository's `src` dir
 ## Theme contracts
 
 - Preserve all seven view roles and their matching `ScissorHands.Theme.*Base` inheritance: `MainLayout`, `IndexView`, `PostView`, `PageView`, `NotFoundView`, `TagListView`, and `TagView`. Do not rely on built-in views to fill missing roles.
-- Keep the theme manifest slug, theme directory, `Site:Theme`, and normalized component namespace suffix aligned. `MainLayout` must stay in that root namespace even under `Components/`; initialization updates its explicit `@namespace` and the imports in `_Imports.razor`.
+- Keep the theme manifest slug, theme directory, `Site:Theme`, and normalized component namespace suffix aligned. Keep `MainLayout` at the root, where it inherits the namespace from `_Imports.razor`; initialization updates the namespace and component import there.
 - Keep application startup based on automatic discovery through `new ScissorHandsApplicationBuilder(args).Build()` unless an explicit override is requested.
 - Treat manifest collections, including `Stylesheets` and `Scripts`, as read-only inputs. Declare assets in `theme.json` rather than modifying collections while rendering.
 - Handle empty collections and absent optional metadata without breaking the layout.
