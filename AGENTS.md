@@ -8,7 +8,8 @@ Use the [theme documentation](https://getscissorhands.app/docs/themes/) as the d
 
 ## Repository and commands
 
-- [src/](src/) contains Razor views, `theme.json`, the favicon, development project, and assets (framework-free CSS, JavaScript, and images); [sample/](sample/) contains the preview app and Markdown content.
+- [src/](src/) contains Razor views, `theme.json`, the favicon, development project, and assets (framework-free CSS, JavaScript, and images).
+- [sample/](sample/) contains the preview app and Markdown content.
 - [Directory.Build.props](Directory.Build.props), [Directory.Packages.props](Directory.Packages.props), and [global.json](global.json) define shared build, package, and SDK settings.
 
 Build from the repository root, then run preview from `sample` so its configuration and content resolve:
