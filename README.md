@@ -57,8 +57,8 @@ ln -s ../../src sample/themes/<theme-slug>
 
 ```powershell
 # PowerShell
-New-Item -ItemType Directory -Path .\sample\themes -Force
-New-Item -ItemType SymbolicLink -Path .\sample\themes\<theme-slug> -Target ..\..\src
+New-Item -ItemType Directory -Path ./sample/themes -Force
+New-Item -ItemType SymbolicLink -Path ./sample/themes/<theme-slug> -Target ../../src
 ```
 
 Then build and preview from the repository root:

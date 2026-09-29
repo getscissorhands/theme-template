@@ -1,6 +1,6 @@
 # Theme preview
 
-This provides an end-to-end preview with the theme linked at `themes/theme-template` to `../../src`.
+This provides an end-to-end preview with the theme linked at `themes/<theme-slug>` to `../../src`.
 
 ## Build
 
