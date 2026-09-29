@@ -13,6 +13,8 @@ See the **[theme documentation](https://getscissorhands.app/docs/themes/)** for 
 
 Create your repository with [![Use this template](https://img.shields.io/badge/Use_this_template-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://github.com/getscissorhands/theme-template/generate), then clone it locally.
 
+On the initial push, the initialization workflow configures the theme and opens a set of development issues in the new repository. If that run does not start automatically, run **Initialize template repository** from the Actions tab. The workflow removes itself and its issue definitions after successful initialization.
+
 ## Theme Layout
 
 ```text

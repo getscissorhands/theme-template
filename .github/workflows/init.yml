@@ -4,13 +4,15 @@ name: Initialize template repository
 # from a template creates its default branch, which emits this initial push.
 on:
   push:
+  workflow_dispatch:
 
 jobs:
   initialize:
-    if: ${{ github.event.created && github.ref_name == github.event.repository.default_branch && !github.event.repository.is_template }}
+    if: ${{ (github.event.created || github.event_name == 'workflow_dispatch') && github.ref_name == github.event.repository.default_branch && !github.event.repository.is_template }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      issues: write
     env:
       REPOSITORY_NAME: ${{ github.event.repository.name }}
       REPOSITORY_DESCRIPTION: ${{ github.event.repository.description }}
@@ -112,11 +114,45 @@ jobs:
           New-Item -ItemType Directory -Path "sample/themes" -Force | Out-Null
           New-Item -ItemType SymbolicLink -Path $themeLinkPath -Target "../../src" | Out-Null
 
+      - name: Create theme development issues
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          files=(.github/bootstrap-issues/*.md)
+          if (( ${#files[@]} == 0 )); then
+            echo "::error::No theme development issues found."
+            exit 1
+          fi
+
+          existing_bodies="$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues?state=all&per_page=100" \
+            --jq '.[] | select(.pull_request == null) | (.body // "")')"
+          body_file="$RUNNER_TEMP/bootstrap-issue-body.md"
+          for file in "${files[@]}"; do
+            title_line="$(head -n 1 "$file")"
+            if [[ "$title_line" != "# "* ]]; then
+              echo "::error file=$file::The first line must be a Markdown heading."
+              exit 1
+            fi
+
+            marker="<!-- theme-template-bootstrap:${file##*/} -->"
+            if [[ "$existing_bodies" == *"$marker"* ]]; then
+              echo "Skipping existing issue: ${title_line#\# }"
+              continue
+            fi
+
+            tail -n +2 "$file" > "$body_file"
+            printf '\n%s\n' "$marker" >> "$body_file"
+            gh issue create --repo "$GITHUB_REPOSITORY" \
+              --title "${title_line#\# }" --body-file "$body_file"
+          done
+
       - name: Commit initialization
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git rm .github/workflows/init.yml
+          git rm -r .github/workflows/init.yml .github/bootstrap-issues
           git add --all
           git add --force "sample/themes/${THEME_SLUG}"
           git commit -m "chore: initialize template repository"
