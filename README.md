@@ -30,18 +30,20 @@ src/
 │       └── theme.js
 ├── favicon.ico
 ├── theme.json
+├── ThemeTemplate.csproj
 ├── _Imports.razor
-├── LanguageSwitcher.razor
-├── LocalizationMetadata.razor
-├── LocalizationFallbackBanner.razor
-├── PublicationBadges.razor
-├── MainLayout.razor
 ├── IndexView.razor
 ├── PostView.razor
 ├── PageView.razor
 ├── NotFoundView.razor
 ├── TagListView.razor
-└── TagView.razor
+├── TagView.razor
+└── Components/
+    ├── MainLayout.razor
+    ├── LanguageSwitcher.razor
+    ├── LocalizationMetadata.razor
+    ├── LocalizationFallbackBanner.razor
+    └── PublicationBadges.razor
 ```
 
 `src/assets/images/logo.png` is a placeholder for your own branding. The starter does not display it until you reference it from a view or stylesheet.

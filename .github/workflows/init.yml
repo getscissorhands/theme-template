@@ -53,6 +53,7 @@ jobs:
           $settingsPath = "sample/appsettings.json"
           $manifestPath = "src/theme.json"
           $importsPath = "src/_Imports.razor"
+          $layoutPath = "src/Components/MainLayout.razor"
           $themeLinkPath = "sample/themes/$env:THEME_SLUG"
 
           if ($projectPath -cne $renamedProjectPath) {
@@ -83,8 +84,11 @@ jobs:
             $namespaceSuffix = "_$namespaceSuffix"
           }
           $imports = Get-Content -LiteralPath $importsPath -Raw
-          $imports = $imports.Replace('@namespace ScissorHands.Theme.Template', "@namespace ScissorHands.Theme.$namespaceSuffix")
+          $imports = $imports.Replace('ScissorHands.Theme.Template', "ScissorHands.Theme.$namespaceSuffix")
           Set-Content -LiteralPath $importsPath -Value $imports -NoNewline
+          $layout = Get-Content -LiteralPath $layoutPath -Raw
+          $layout = $layout.Replace('@namespace ScissorHands.Theme.Template', "@namespace ScissorHands.Theme.$namespaceSuffix")
+          Set-Content -LiteralPath $layoutPath -Value $layout -NoNewline
 
           $settings = Get-Content -LiteralPath $settingsPath -Raw | ConvertFrom-Json
           $settings.Site.Author = $env:REPOSITORY_OWNER
