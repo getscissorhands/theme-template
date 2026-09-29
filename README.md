@@ -25,7 +25,7 @@ src/
 │   ├── css/
 │   │   └── theme.css
 │   ├── images/
-│   │   └── logo.png
+│   │   └── .gitkeep
 │   └── js/
 │       └── theme.js
 ├── favicon.ico
@@ -45,8 +45,6 @@ src/
     ├── LocalizationFallbackBanner.razor
     └── PublicationBadges.razor
 ```
-
-`src/assets/images/logo.png` is a placeholder for your own branding. The starter does not display it until you reference it from a view or stylesheet.
 
 ## Local Preview
 
