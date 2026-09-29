@@ -39,7 +39,8 @@ src/
     ├── LanguageSwitcher.razor
     ├── LocalizationMetadata.razor
     ├── LocalizationFallbackBanner.razor
-    └── PublicationBadges.razor
+    ├── PublicationBadges.razor
+    └── NavigationItems.razor
 ```
 
 ## Local Preview

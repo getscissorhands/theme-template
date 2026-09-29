@@ -1,0 +1,38 @@
+@using ScissorHands.Core.Models
+
+@foreach (var item in Nodes)
+{
+    var submenuId = $"navigation-submenu-{item.Path}";
+    <li class="navigation-item">
+        <div class="navigation-link">
+            @if (item.Url is not null)
+            {
+                <a href="@item.Url">@item.Title</a>
+            }
+            else
+            {
+                <span class="navigation-label">@item.Title</span>
+            }
+            @if (item.Children.Count > 0)
+            {
+                <button class="navigation-toggle" type="button" aria-expanded="false"
+                        aria-controls="@submenuId" aria-label="@($"Toggle {item.Title} pages")" hidden>
+                    <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <path d="m4 6 4 4 4-4"></path>
+                    </svg>
+                </button>
+            }
+        </div>
+        @if (item.Children.Count > 0)
+        {
+            <ul class="navigation-children" id="@submenuId">
+                <NavigationItems Nodes="@item.Children" />
+            </ul>
+        }
+    </li>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public IReadOnlyList<NavigationNode> Nodes { get; set; } = null!;
+}
