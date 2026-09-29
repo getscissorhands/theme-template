@@ -13,6 +13,8 @@ See the **[theme documentation](https://getscissorhands.app/docs/themes/)** for 
 
 Create your repository with [![Use this template](https://img.shields.io/badge/Use_this_template-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://github.com/getscissorhands/theme-template/generate), then clone it locally.
 
+The new repository's initialization workflow opens development issues to guide theme customization.
+
 ## Theme Layout
 
 ```text
