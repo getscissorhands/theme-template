@@ -1,6 +1,7 @@
 ---
 title: Hello, ScissorHands
 description: A sample post rendered from Markdown through the starter Razor theme.
+hero_image: /images/hello-world.png
 published: 2026-09-11
 tags:
   - dotnet

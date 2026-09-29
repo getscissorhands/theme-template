@@ -13,7 +13,7 @@ The sample application uses the published engine packages and a local copy or li
 
 ## Preview while editing
 
-```shell
+```bash
 dotnet run -- --preview
 ```
 
@@ -21,7 +21,7 @@ Preview mode serves the generated site locally, including drafts and future-sche
 
 ## Generate static output
 
-```shell
+```bash
 dotnet run -- --build
 ```
 

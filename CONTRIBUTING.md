@@ -23,7 +23,7 @@ Before building, follow the [local preview setup](README.md#local-preview) to
 ensure the sample's theme link points to this checkout's `src` directory.
 From the repository root, run:
 
-```shell
+```bash
 dotnet restore
 dotnet build --configuration Release --no-restore
 ```
@@ -53,7 +53,7 @@ as test coverage.
 
 For rendering, navigation, or asset changes, run the sample from its directory:
 
-```shell
+```bash
 cd sample
 dotnet run -- --preview
 ```

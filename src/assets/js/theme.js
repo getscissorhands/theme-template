@@ -139,6 +139,46 @@ document.querySelectorAll(".site-navigation").forEach((navigation) => {
   });
 });
 
+document.querySelectorAll(".language-switcher details").forEach((menu) => {
+  const summary = menu.querySelector("summary");
+  if (!summary) {
+    throw new Error("Language menu must have a summary.");
+  }
+
+  let pointerDown = false;
+  menu.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || !menu.open) return;
+    event.preventDefault();
+    event.stopPropagation();
+    menu.open = false;
+    summary.focus();
+  });
+
+  document.addEventListener(
+    "pointerdown",
+    () => {
+      pointerDown = true;
+    },
+    true,
+  );
+  document.addEventListener(
+    "pointercancel",
+    () => {
+      pointerDown = false;
+    },
+    true,
+  );
+
+  menu.addEventListener("focusout", (event) => {
+    if (!pointerDown && !menu.contains(event.relatedTarget)) menu.open = false;
+  });
+
+  document.addEventListener("click", (event) => {
+    pointerDown = false;
+    if (!menu.contains(event.target)) menu.open = false;
+  });
+});
+
 const container = document.querySelector("[data-current-time-container]");
 const time = document.querySelector("[data-current-time]");
 

@@ -2,6 +2,7 @@
 title: Draft and scheduled post preview
 description: Both required preview badges, including on an inherited translation.
 slug: draft-scheduled-post
+hero_image: /images/scheduled-post.svg
 published: 2099-02-01
 draft: true
 tags:
