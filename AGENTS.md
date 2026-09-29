@@ -15,14 +15,13 @@ Use the [theme documentation](https://getscissorhands.app/docs/themes/) as the d
 
 Restore and build from the repository root:
 
-```shell
-dotnet restore
-dotnet build
+```bash
+dotnet restore && dotnet build
 ```
 
 Run preview from the sample directory so configuration and content resolve correctly:
 
-```shell
+```bash
 cd sample
 dotnet run -- --preview
 ```
