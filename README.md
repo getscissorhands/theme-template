@@ -21,7 +21,10 @@ src/
 │   ├── css/
 │   │   └── theme.css
 │   ├── images/
-│   │   └── .gitkeep
+│   │   ├── chevron-down.svg
+│   │   ├── globe.svg
+│   │   ├── moon.svg
+│   │   └── sun.svg
 │   └── js/
 │       └── theme.js
 ├── favicon.ico
