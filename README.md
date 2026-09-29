@@ -44,6 +44,8 @@ src/
 └── TagView.razor
 ```
 
+`src/assets/images/logo.png` is a placeholder for your own branding. The starter does not display it until you reference it from a view or stylesheet.
+
 ## Local Preview
 
 The sample needs a symbolic link at `sample/themes/<theme-slug>` pointing to `src`, with the relative target `../../src`. The repository initialization workflow creates this link; create it manually if it is missing.
