@@ -8,6 +8,10 @@ not reconstruct earlier release history.
 
 ## [Unreleased]
 
+### Changed
+
+- Verified the latest floating ScissorHands.Theme and ScissorHands.Web NuGet releases (`1.0.0-preview.20260930.1`) and use the theme package's publication badge locale and settings context without shadowing inherited properties.
+
 ## [v1.0.0-preview.20260929.2] - 2026-09-29
 
 ### Added
