@@ -8,6 +8,8 @@ not reconstruct earlier release history.
 
 ## [Unreleased]
 
+## [v1.0.0-preview.20260930.1] - 2026-09-30
+
 ### Changed
 
 - Verified the latest floating ScissorHands.Theme and ScissorHands.Web NuGet releases (`1.0.0-preview.20260930.1`) and use the theme package's publication badge locale and settings context without shadowing inherited properties.
@@ -78,7 +80,8 @@ not reconstruct earlier release history.
 - Updated workflow actions to `actions/checkout@v7` and
   `actions/setup-dotnet@v6`.
 
-[Unreleased]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260929.2...HEAD
+[Unreleased]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260930.1...HEAD
+[v1.0.0-preview.20260930.1]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260929.2...v1.0.0-preview.20260930.1
 [v1.0.0-preview.20260929.2]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260929.1...v1.0.0-preview.20260929.2
 [v1.0.0-preview.20260929.1]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260928.1...v1.0.0-preview.20260929.1
 [v1.0.0-preview.20260928.1]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260915.1...v1.0.0-preview.20260928.1
