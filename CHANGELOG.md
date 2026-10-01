@@ -8,6 +8,16 @@ not reconstruct earlier release history.
 
 ## [Unreleased]
 
+## [v1.0.0-preview.20260930.2] - 2026-09-30
+
+### Added
+
+- A first bootstrap issue for new theme repositories to personalize documentation, contacts, the changelog, license, code ownership, and funding before theme design or implementation.
+
+### Changed
+
+- Renumbered the remaining bootstrap issues so the separate `AGENTS.md` review follows implementation and final onboarding stays last.
+
 ## [v1.0.0-preview.20260930.1] - 2026-09-30
 
 ### Changed
@@ -80,7 +90,8 @@ not reconstruct earlier release history.
 - Updated workflow actions to `actions/checkout@v7` and
   `actions/setup-dotnet@v6`.
 
-[Unreleased]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260930.1...HEAD
+[Unreleased]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260930.2...HEAD
+[v1.0.0-preview.20260930.2]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260930.1...v1.0.0-preview.20260930.2
 [v1.0.0-preview.20260930.1]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260929.2...v1.0.0-preview.20260930.1
 [v1.0.0-preview.20260929.2]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260929.1...v1.0.0-preview.20260929.2
 [v1.0.0-preview.20260929.1]: https://github.com/getscissorhands/theme-template/compare/v1.0.0-preview.20260928.1...v1.0.0-preview.20260929.1
