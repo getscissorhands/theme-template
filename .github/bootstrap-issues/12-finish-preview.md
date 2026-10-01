@@ -4,7 +4,7 @@ Provide a clear path from cloning the new repository to reviewing its built site
 
 ## Acceptance criteria
 
-- [ ] The README describes the new theme, its prerequisites, the sample theme link, build and preview commands, and where to find design decisions.
+- [ ] The personalized README accurately describes the finished theme, its prerequisites, the sample theme link, build and preview commands, and where to find design decisions.
 - [ ] `dotnet restore && dotnet build` succeeds from the repository root and the sample preview or static build runs from `sample/`.
 - [ ] Generated pages and assets are inspected for the representative content and states covered by the other issues.
 - [ ] Any omitted validation or known limitations are recorded before declaring the theme ready.

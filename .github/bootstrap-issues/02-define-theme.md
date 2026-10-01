@@ -1,6 +1,6 @@
 # Define the theme's PRD, TRD and TDD
 
-Establish the new theme's direction before changing the starter. Create a Product Requirements Document (PRD), Technical Requirements Document (TRD) and Technical Design Document (TDD) for this theme. Keep the documents focused on theme behaviour; refer to the [ScissorHands.NET theme documentation](https://getscissorhands.app/docs/themes/) for engine contracts instead of copying it.
+Establish the new theme's direction before implementing it. Create a Product Requirements Document (PRD), Technical Requirements Document (TRD) and Technical Design Document (TDD) for this theme. Keep the documents focused on theme behaviour; refer to the [ScissorHands.NET theme documentation](https://getscissorhands.app/docs/themes/) for engine contracts instead of copying it.
 
 ## Acceptance criteria
 
